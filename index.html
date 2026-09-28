@@ -54,8 +54,8 @@
 
         /* THEME TOGGLE */
         #theme-toggle {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 50px; height: 50px; border-radius: 50%; border: none;
+            position: fixed; bottom: 25px; right: 25px;
+            width: 48px; height: 48px; border-radius: 50%; border: none;
             background-color: var(--text-color); color: var(--bg-color);
             font-size: 22px; cursor: pointer; z-index: 9999;
             box-shadow: 0 4px 15px rgba(0,0,0,0.25);
@@ -65,7 +65,7 @@
         #theme-toggle:hover { transform: scale(1.1); }
 
         /* =========================================
-           NAVIGATION BAR (DESKTOP)
+           NAVIGATION BAR (HORIZONTAL SCROLLABLE)
            ========================================= */
         header {
             position: fixed; top: 0; left: 0; width: 100%;
@@ -76,23 +76,19 @@
             transition: background-color 0.3s ease;
             height: 70px;
         }
-        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 9001; }
+        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 9001; flex-shrink: 0; }
         .logo-container img { height: 35px; width: auto; object-fit: contain; }
         .logo-container span {
             font-family: 'Montserrat', sans-serif; font-weight: 900;
             font-size: clamp(1rem, 2vw, 1.1rem); letter-spacing: 0.5px; color: #d50000;
             white-space: nowrap;
         }
-        
-        .menu-icon {
-            display: none; font-size: 28px; cursor: pointer; 
-            color: var(--text-color); z-index: 9001; padding: 10px;
-        }
 
         nav { display: flex; justify-content: flex-end; height: 100%; align-items: center; }
         nav ul { 
             list-style: none; display: flex; gap: 1.5vw; 
             align-items: center; height: 100%; margin: 0;
+            flex-wrap: nowrap;
         }
         nav ul li { height: 100%; display: flex; align-items: center; position: relative; }
         nav ul li a {
@@ -100,6 +96,7 @@
             font-family: 'Inter', sans-serif; font-weight: 700;
             font-size: 0.75rem; transition: color 0.2s ease;
             padding: 10px 0; cursor: pointer; text-transform: uppercase;
+            white-space: nowrap;
         }
         nav ul li a:hover { color: #d50000; }
         .nav-highlight { color: #d50000 !important; font-weight: 900 !important; }
@@ -162,8 +159,9 @@
             font-family: 'Bebas Neue', sans-serif; font-style: normal; 
             fill: url(#glossyRed); stroke: url(#glossyRed); 
         }
-        .main-text-svg { font-size: clamp(50px, 8vw, 100px); stroke-width: 1px; letter-spacing: 3px; }
-        .sub-text-svg { font-size: clamp(16px, 3vw, 24px); stroke-width: 0.5px; letter-spacing: 4px; }
+        /* Fluid SVG Typography */
+        .main-text-svg { font-size: clamp(40px, 8vw, 100px); stroke-width: 1px; letter-spacing: 3px; }
+        .sub-text-svg { font-size: clamp(14px, 3vw, 24px); stroke-width: 0.5px; letter-spacing: 4px; }
 
         body.scrolled #intro-section .img-wrapper,
         body.scrolled #intro-section .text-wrapper {
@@ -177,8 +175,7 @@
         #slider-section {
             position: relative; width: 100%; min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            overflow: hidden; padding: 90px 5vw 80px 5vw;
-            background-color: var(--bg-color);
+            overflow: hidden; padding-top: 65px; background-color: var(--bg-color);
         }
         
         .slide {
@@ -186,7 +183,7 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             padding: 20px 8vw; text-align: center; opacity: 0; visibility: hidden;
             transform: translateY(20px); transition: all 0.4s ease-out;
-            pointer-events: none;
+            pointer-events: none; overflow-y: auto;
         }
         .slide.active { 
             opacity: 1; visibility: visible; 
@@ -195,17 +192,17 @@
 
         .slide h2 {
             font-family: 'Bebas Neue', sans-serif; 
-            font-size: clamp(3rem, 6vw, 5rem); 
+            font-size: clamp(3.5rem, 8vw, 5rem); 
             color: #d50000; letter-spacing: 2px; margin-bottom: 20px; line-height: 1;
         }
         .slide p {
-            font-family: 'Inter', sans-serif; font-size: clamp(1rem, 2vw, 1.3rem);
+            font-family: 'Inter', sans-serif; font-size: clamp(1rem, 2.5vw, 1.3rem);
             line-height: 1.6; max-width: 1000px; font-weight: 500; margin-bottom: 12px;
             color: var(--text-color);
         }
         .slide ul {
             text-align: left; max-width: 900px; margin: 12px auto; 
-            font-family: 'Inter', sans-serif; font-size: clamp(0.95rem, 1.8vw, 1.15rem); 
+            font-family: 'Inter', sans-serif; font-size: clamp(0.95rem, 2vw, 1.15rem); 
             line-height: 1.7; color: var(--text-color); list-style: none;
         }
         .slide li { margin-bottom: 8px; }
@@ -236,7 +233,7 @@
             padding: 120px 8vw 80px 8vw; min-height: 100vh;
         }
         .section-header {
-            font-family: "Bebas Neue", sans-serif; font-size: clamp(3.5rem, 6vw, 4.5rem);
+            font-family: "Bebas Neue", sans-serif; font-size: clamp(3.5rem, 8vw, 4.5rem);
             color: #d50000; margin-bottom: 30px; letter-spacing: 2px; line-height: 1.1;
         }
         .interactive-list {
@@ -249,12 +246,14 @@
         
         .item-text-content { display: flex; flex-direction: column; gap: 8px; flex: 1; }
         .interactive-name {
-            font-family: "Bebas Neue", sans-serif; font-size: clamp(3rem, 5vw, 5rem);
+            font-family: "Bebas Neue", sans-serif; 
+            font-size: clamp(2.5rem, 6vw, 5rem); 
             color: #b3b3b3; transition: color 0.2s ease, transform 0.2s ease;
-            line-height: 1; letter-spacing: 1px; transform-origin: left center; 
+            line-height: 1.1; letter-spacing: 1px; transform-origin: left center; 
+            word-wrap: break-word; white-space: normal;
         }
         .item-desc {
-            font-family: 'Inter', sans-serif; font-size: clamp(0.9rem, 1.5vw, 1rem); 
+            font-family: 'Inter', sans-serif; font-size: clamp(0.9rem, 2vw, 1rem); 
             color: #888; line-height: 1.5; max-width: 650px;
         }
         .interactive-item:hover .interactive-name, .interactive-item.active .interactive-name {
@@ -288,7 +287,7 @@
         .marquee-section { padding: 40px 0; background-color: var(--bg-color); overflow: hidden; }
         .marquee-title {
             text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 900;
-            font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--text-color); letter-spacing: 1.5px;
+            font-size: clamp(1.2rem, 4vw, 1.8rem); color: var(--text-color); letter-spacing: 1.5px;
             margin-bottom: 25px; text-transform: uppercase;
         }
         .marquee-wrapper {
@@ -298,7 +297,7 @@
         }
         .marquee-content { display: flex; width: max-content; animation: scrollMarquee 20s linear infinite; align-items: center; }
         .marquee-content img {
-            height: clamp(35px, 5vw, 50px); margin: 0 clamp(20px, 4vw, 45px); object-fit: contain;
+            height: clamp(35px, 6vw, 50px); margin: 0 clamp(20px, 4vw, 45px); object-fit: contain;
             filter: grayscale(100%) contrast(1.2); opacity: 0.65; transition: all 0.2s ease;
         }
         .marquee-content img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.08); }
@@ -322,56 +321,40 @@
         .footer-col a:hover { color: #d50000; }
 
         /* =========================================
-           MOBILE UX PERFECTION (Phones & Tablets)
+           MOBILE UX: SCROLLING HORIZONTAL NAV BAR
            ========================================= */
         @media (max-width: 950px) {
             
-            /* Clean Header: Logo Left, Hamburger Right */
-            header { padding: 0 5vw; height: 70px; }
-            .menu-icon { display: block; }
-            
-            /* Slide-in Mobile Menu */
-            nav {
-                position: fixed; top: 70px; right: -100%;
-                width: 100%; height: calc(100vh - 70px);
-                background-color: var(--nav-bg);
-                transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-                display: flex; flex-direction: column; justify-content: flex-start;
-                padding: 20px 5vw 80px 5vw; overflow-y: auto; z-index: 8999;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            header { 
+                padding: 10px 15px; 
+                overflow-x: auto; 
+                -webkit-overflow-scrolling: touch; 
+                justify-content: flex-start;
+                gap: 20px;
             }
-            nav.open { right: 0; }
-            
-            nav ul { flex-direction: column; align-items: flex-start; width: 100%; gap: 0; }
-            nav ul li { width: 100%; border-bottom: 1px solid var(--border-color); height: auto; }
-            nav ul li:last-child { border-bottom: none; }
-            
-            nav ul li a { 
-                font-size: 1.1rem; padding: 20px 10px; display: block; width: 100%; 
-            }
-            
-            /* Show Dropdowns inline on Mobile */
-            .dropdown-menu {
-                position: relative; top: 0; left: 0; transform: none; box-shadow: none; border: none;
-                display: flex; opacity: 1; visibility: visible;
-                background-color: transparent; padding: 0 0 10px 20px;
-                border-top: none;
-            }
-            .dropdown-menu li { border-bottom: none; }
-            .dropdown-menu li a { padding: 10px; font-size: 0.95rem; color: #888; }
-            
-            /* Intro Tightening for Mobile */
-            .scattered .img-1 { transform: translate3d(0, -15vh, 0) scale(0.85); }
-            .scattered .img-2 { transform: translate3d(-20vw, 15vh, 0) scale(0.85); }
-            .scattered .img-3 { transform: translate3d(20vw, 15vh, 0) scale(0.85); }
+            /* Hide scrollbar for a cleaner look */
+            header::-webkit-scrollbar { display: none; }
+            header { -ms-overflow-style: none; scrollbar-width: none; }
 
-            /* Fix Mobile Slider Overlap & Gaps */
-            #slider-section { 
-                min-height: auto; height: auto; padding: 60px 0; 
-            }
-            /* The magic trick to fix height collapsing: Inactive slides are completely hidden, Active slide dictates parent height naturally */
-            .slide { position: absolute; opacity: 0; visibility: hidden; padding: 20px 5vw; }
-            .slide.active { position: relative; opacity: 1; visibility: visible; }
+            .logo-container { flex-shrink: 0; }
+            .logo-container img { height: 28px; }
+            .logo-container span { font-size: 0.9rem; }
+            
+            nav { flex-shrink: 0; }
+            nav ul { gap: 18px; flex-wrap: nowrap; } 
+            nav ul li a { font-size: 0.8rem; padding: 15px 0; white-space: nowrap; }
+            
+            .dropdown-menu { display: none !important; }
+
+            .image-container { flex-direction: column; gap: 8px; }
+            .img-wrapper { width: 90px; height: 90px; }
+            .scattered .img-1 { transform: translate3d(0, -18vh, 0) scale(0.9); }
+            .scattered .img-2 { transform: translate3d(-18vw, 15vh, 0) scale(0.9); }
+            .scattered .img-3 { transform: translate3d(18vw, 15vh, 0) scale(0.9); }
+            
+            #slider-section { height: auto; min-height: 100vh; padding-top: 80px; }
+            .slide { position: relative; padding: 20px 5vw; opacity: 0; display: none; transform: none; }
+            .slide.active { display: flex; opacity: 1; }
             .dots-container { position: relative; bottom: 0; margin-top: 25px; }
 
             .dedicated-section { padding: 100px 5vw 60px 5vw; }
@@ -387,16 +370,14 @@
     <!-- Theme Toggle -->
     <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
 
-    <!-- Clean Mobile-Optimized Header -->
+    <!-- Header / Navigation -->
     <header id="main-header">
         <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
             <img src="1.png" alt="Company Logo" onerror="this.style.display='none'">
             <span class="logo-text">MARVELOUS PRECISION</span>
         </div>
-        
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
-        <nav id="mobile-nav">
+        <nav>
             <ul class="nav-links">
                 <li><a onclick="navigateTo('main-view', 'slider-section', 0)">About Us</a></li>
                 <li><a onclick="navigateTo('main-view', 'slider-section', 3)">Infrastructure</a></li>
@@ -806,19 +787,8 @@
     </div>
 
     <script>
-        // --- Mobile Hamburger Menu Logic ---
-        function toggleMenu() {
-            document.getElementById('mobile-nav').classList.toggle('open');
-        }
-
-        // --- View Router & Smooth Scrolling ---
+        // --- View Router ---
         function navigateTo(viewId, targetId, slideIndex = null) {
-            // Close mobile menu on click
-            const mobileNav = document.getElementById('mobile-nav');
-            if (mobileNav.classList.contains('open')) {
-                mobileNav.classList.remove('open');
-            }
-
             document.querySelectorAll('.page-view').forEach(view => {
                 view.classList.remove('active');
             });
@@ -877,7 +847,7 @@
                 document.body.classList.toggle('dark-mode');
             });
 
-            // Trigger Scatter Animation
+            // Trigger Scatter Animation (Runs naturally inside normal flow block)
             const introSection = document.getElementById("intro-section");
             setTimeout(() => {
                 introSection.classList.add("scattered");
