@@ -94,7 +94,7 @@
       }
 
       /* =========================================
-           NAVIGATION BAR (DESKTOP)
+           NAVIGATION BAR (DESKTOP DEFAULT)
            ========================================= */
       header {
         position: fixed;
@@ -116,7 +116,6 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        cursor: pointer;
         z-index: 9001;
         flex-shrink: 0;
       }
@@ -128,6 +127,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        cursor: pointer;
       }
       .logo-container img {
         height: 35px;
@@ -137,7 +137,7 @@
       .logo-container span {
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: clamp(1rem, 2vw, 1.1rem);
+        font-size: 1.1rem;
         letter-spacing: 0.5px;
         color: #d50000;
         white-space: nowrap;
@@ -266,8 +266,8 @@
         z-index: 2;
       }
       .img-wrapper {
-        width: clamp(100px, 15vw, 200px);
-        height: clamp(100px, 15vw, 200px);
+        width: clamp(150px, 15vw, 200px);
+        height: clamp(150px, 15vw, 200px);
         background: transparent;
         display: flex;
         justify-content: center;
@@ -325,12 +325,12 @@
         stroke: url(#glossyRed);
       }
       .main-text-svg {
-        font-size: clamp(40px, 8vw, 100px);
+        font-size: clamp(60px, 8vw, 100px);
         stroke-width: 1px;
         letter-spacing: 3px;
       }
       .sub-text-svg {
-        font-size: clamp(14px, 3vw, 24px);
+        font-size: clamp(18px, 3vw, 24px);
         stroke-width: 0.5px;
         letter-spacing: 4px;
       }
@@ -385,7 +385,7 @@
 
       .slide h2 {
         font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(3.5rem, 8vw, 5rem);
+        font-size: clamp(4rem, 8vw, 5rem);
         color: #d50000;
         letter-spacing: 2px;
         margin-bottom: 20px;
@@ -393,7 +393,7 @@
       }
       .slide p {
         font-family: "Inter", sans-serif;
-        font-size: clamp(1.15rem, 2.5vw, 1.3rem);
+        font-size: clamp(1.2rem, 2.5vw, 1.3rem);
         line-height: 1.6;
         max-width: 1000px;
         font-weight: 500;
@@ -405,7 +405,7 @@
         max-width: 900px;
         margin: 12px auto;
         font-family: "Inter", sans-serif;
-        font-size: clamp(1.05rem, 2vw, 1.15rem);
+        font-size: clamp(1.1rem, 2vw, 1.15rem);
         line-height: 1.7;
         color: var(--text-color);
         list-style: none;
@@ -714,47 +714,41 @@
            MOBILE UX PERFECTION (Phones & Tablets)
            ========================================= */
       @media (max-width: 950px) {
-        /* 1. True App-Like Header */
+        /* 1. Header Logic: LHS Menu Icon, Logo next to it, NOTHING ELSE */
         header {
-          padding: 0;
+          padding: 0 5vw;
           height: 70px;
-          display: flex;
-          flex-direction: column; /* Allows absolute dropdown positioning relative to header */
-          align-items: flex-start;
-          justify-content: flex-start;
-        }
-
-        .mobile-header-left {
           display: flex;
           align-items: center;
-          width: 100%;
-          height: 70px;
-          padding: 0 5vw;
-          background-color: var(--nav-bg);
-          gap: 15px;
-          z-index: 9002;
+          justify-content: flex-start;
+          overflow: visible; /* Prevents scrollbar */
         }
-
+        .mobile-header-left {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
         .menu-icon {
           display: block;
-          font-size: 28px;
+          font-size: 32px;
           color: var(--text-color);
           cursor: pointer;
           user-select: none;
+          flex-shrink: 0;
         }
-
         .logo-container {
           flex-grow: 1;
+          display: flex;
+          align-items: center;
           gap: 10px;
         }
-        .logo-container img {
-          height: 30px;
-        }
         .logo-container span {
-          font-size: 1.1rem;
-        }
+          font-size: 1.25rem;
+          font-weight: 900;
+        } /* Text size boosted */
 
-        /* 2. Sleek Slide-Down Mobile Menu */
+        /* 2. Slide Down Mobile Menu */
         nav#navbar {
           position: absolute;
           top: 70px;
@@ -792,15 +786,15 @@
         }
 
         nav#navbar ul.nav-links li a {
-          padding: 16px 5vw;
-          font-size: 1.15rem; /* Highly readable */
+          padding: 18px 5vw;
+          font-size: 1.25rem; /* Text size boosted */
           width: 100%;
           display: block;
           text-align: left;
           white-space: normal;
         }
 
-        /* Indented Sub-Menus on Mobile */
+        /* Dropdowns become static inline lists on mobile */
         .dropdown-menu {
           position: static;
           transform: none;
@@ -821,10 +815,9 @@
           border-bottom: none;
         }
         .dropdown-menu li a {
-          padding: 14px 10vw; /* Indented further right */
-          font-size: 1rem;
+          padding: 16px 10vw; /* Indented further right */
+          font-size: 1.1rem; /* Text size boosted */
           color: var(--text-color);
-          opacity: 0.85;
         }
 
         /* 3. Intro Mobile Adjustments */
@@ -837,7 +830,7 @@
           height: 110px;
         }
         .scattered .img-1 {
-          transform: translate3d(0, -18vh, 0) scale(0.9);
+          transform: translate3d(0, -16vh, 0) scale(0.9);
         }
         .scattered .img-2 {
           transform: translate3d(-20vw, 15vh, 0) scale(0.9);
@@ -846,16 +839,15 @@
           transform: translate3d(20vw, 15vh, 0) scale(0.9);
         }
         .main-text-svg {
-          font-size: 65px;
-        }
+          font-size: 75px;
+        } /* Text size boosted */
 
-        /* 4. Removing Gaps on Sliders */
+        /* 4. Removing Gaps on Sliders (Relative positioning fixes height issues) */
         #slider-section {
           min-height: auto;
           height: auto;
-          padding: 90px 0 60px 0;
+          padding: 80px 0 40px 0; /* Tightened padding gaps */
         }
-        /* Slide becomes relative on mobile so parent container perfectly hugs the content */
         .slide {
           position: absolute;
           opacity: 0;
@@ -865,25 +857,27 @@
           display: none;
         }
         .slide.active {
-          position: relative;
+          position: relative; /* Restores natural document height on mobile */
           opacity: 1;
           visibility: visible;
           display: flex;
-          padding: 20px 6vw;
+          padding: 0 6vw; /* Tightened padding */
         }
 
-        /* Enhanced Text Sizing */
+        /* Enhanced Text Sizing for Mobile */
         .slide h2 {
-          font-size: 3.8rem;
+          font-size: 4rem;
           margin-bottom: 15px;
-        }
+        } /* Text size boosted */
         .slide p {
-          font-size: 1.15rem;
+          font-size: 1.25rem;
           margin-bottom: 15px;
-        }
+          line-height: 1.5;
+        } /* Text size boosted */
         .slide ul {
-          font-size: 1.05rem;
-        }
+          font-size: 1.15rem;
+          line-height: 1.5;
+        } /* Text size boosted */
         .dots-container {
           position: relative;
           bottom: 0;
@@ -892,35 +886,45 @@
 
         /* 5. Tighten Dedicated Sections */
         .dedicated-section {
-          padding: 90px 5vw 50px 5vw;
+          padding: 90px 5vw 40px 5vw;
           min-height: auto;
-        }
+        } /* Tightened padding gaps */
         .section-header {
-          font-size: 3.8rem;
+          font-size: 4.2rem;
           margin-bottom: 25px;
-        }
+        } /* Text size boosted */
 
+        .interactive-list {
+          gap: 25px;
+        } /* Tightened gaps */
         .interactive-item {
           gap: 12px;
           flex-direction: column;
           align-items: flex-start;
         }
         .interactive-name {
-          font-size: 3.8rem;
-        }
+          font-size: 4.2rem;
+        } /* Text size boosted */
         .item-desc {
-          font-size: 1.1rem;
-        }
+          font-size: 1.2rem;
+          line-height: 1.4;
+        } /* Text size boosted */
         .mini-slideshow {
           width: 100%;
-          height: 220px;
+          height: 240px;
           transform-origin: top left;
           margin-top: 5px;
         }
 
+        .marquee-title {
+          font-size: 1.6rem;
+        }
+        .marquee-section {
+          padding: 25px 0;
+        }
         footer {
-          padding: 60px 6vw;
-          gap: 35px;
+          padding: 50px 6vw;
+          gap: 25px;
         }
       }
     </style>
@@ -931,6 +935,7 @@
 
     <!-- App-Like Header -->
     <header id="main-header">
+      <!-- Strictly ☰, Logo, and Company Name on Mobile LHS -->
       <div class="mobile-header-left">
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
         <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
@@ -943,6 +948,7 @@
         </div>
       </div>
 
+      <!-- Desktop Nav Links / Mobile Slide-Down Menu -->
       <nav id="navbar">
         <ul class="nav-links">
           <li>
@@ -1026,6 +1032,7 @@
          VIEW 1: MAIN HOME VIEW
          ======================================================= -->
     <div id="main-view" class="page-view active">
+      <!-- Physical First Slide -->
       <section id="intro-section">
         <div class="image-container" id="img-container">
           <div class="img-wrapper img-1"><img src="1.png" alt="Image 1" /></div>
@@ -1063,7 +1070,7 @@
         </div>
       </section>
 
-      <!-- Dynamic Auto-Slider -->
+      <!-- Dynamic Full Page Slider -->
       <section id="slider-section">
         <div class="slide active">
           <h2>About Us</h2>
@@ -1585,7 +1592,7 @@
     </div>
 
     <!-- =======================================================
-         VIEW 4: DEDICATED PRODUCTS "TAB"
+         VIEW 4: DEDICATED PRODUCTS "TAB" (All 9 Products)
          ======================================================= -->
     <div id="products-view" class="page-view">
       <section class="dedicated-section">
