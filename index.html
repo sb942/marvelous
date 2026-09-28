@@ -1,1776 +1,918 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marvelous Precision Pvt. Ltd.</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;900&display=swap"
-      rel="stylesheet"
-    />
-
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      :root {
-        --bg-color: #e3e3e3;
-        --text-color: #111111;
-        --nav-bg: #ffffff;
-        --hover-bg: #eeeeee;
-        --card-bg: #ffffff;
-        --border-color: rgba(0, 0, 0, 0.08);
-      }
-
-      body.dark-mode {
-        --bg-color: #141414;
-        --text-color: #ffffff;
-        --nav-bg: #1c1c1c;
-        --hover-bg: #2a2a2a;
-        --card-bg: #202020;
-        --border-color: rgba(255, 255, 255, 0.08);
-      }
-
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        overflow-x: hidden;
-        transition:
-          background-color 0.3s ease,
-          color 0.3s ease;
-        -webkit-user-select: none;
-        user-select: none;
-        scroll-behavior: smooth;
-      }
-
-      /* VIEW SWITCHER LOGIC */
-      .page-view {
-        display: none;
-        opacity: 0;
-        animation: fadeIn 0.4s forwards;
-      }
-      .page-view.active {
-        display: block;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        :root {
+            --bg-color: #e3e3e3;
+            --text-color: #111111;
+            --nav-bg: #ffffff;
+            --hover-bg: #eeeeee;
+            --card-bg: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.08);
         }
-      }
 
-      /* THEME TOGGLE */
-      #theme-toggle {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: none;
-        background-color: var(--text-color);
-        color: var(--bg-color);
-        font-size: 22px;
-        cursor: pointer;
-        z-index: 9999;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-        transition: transform 0.2s ease;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      #theme-toggle:hover {
-        transform: scale(1.1);
-      }
+        body.dark-mode {
+            --bg-color: #141414;
+            --text-color: #ffffff;
+            --nav-bg: #1c1c1c;
+            --hover-bg: #2a2a2a;
+            --card-bg: #202020;
+            --border-color: rgba(255, 255, 255, 0.08);
+        }
 
-      /* =========================================
-           NAVIGATION BAR
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            -webkit-user-select: none;
+            user-select: none;
+            scroll-behavior: smooth; 
+        }
+
+        /* VIEW SWITCHER LOGIC */
+        .page-view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; }
+        .page-view.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* THEME TOGGLE */
+        #theme-toggle {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 50px; height: 50px; border-radius: 50%; border: none;
+            background-color: var(--text-color); color: var(--bg-color);
+            font-size: 22px; cursor: pointer; z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            transition: transform 0.2s ease;
+            display: flex; justify-content: center; align-items: center;
+        }
+        #theme-toggle:hover { transform: scale(1.1); }
+
+        /* =========================================
+           NAVIGATION BAR (DESKTOP)
            ========================================= */
-      header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background-color: var(--nav-bg);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 2vw;
-        z-index: 9000;
-        transition: background-color 0.3s ease;
-        height: 65px;
-      }
-      .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        flex-shrink: 0;
-        z-index: 9001;
-      }
-      .logo-container img {
-        height: 35px;
-        width: auto;
-        object-fit: contain;
-      }
-      .logo-container span {
-        font-family: "Montserrat", sans-serif;
-        font-weight: 900;
-        font-size: clamp(0.9rem, 2vw, 1rem);
-        letter-spacing: 0.5px;
-        color: #d50000;
-        white-space: nowrap;
-      }
-
-      .menu-icon {
-        display: none;
-        font-size: 28px;
-        cursor: pointer;
-        color: var(--text-color);
-        z-index: 9001;
-      }
-
-      nav {
-        flex-grow: 1;
-        display: flex;
-        justify-content: flex-end;
-      }
-      nav ul {
-        list-style: none;
-        display: flex;
-        gap: 1.5vw;
-        align-items: center;
-        flex-wrap: nowrap;
-        white-space: nowrap;
-        transition: all 0.3s ease;
-      }
-      nav ul li {
-        position: relative;
-      }
-      nav ul li a {
-        text-decoration: none;
-        color: var(--text-color);
-        font-family: "Inter", sans-serif;
-        font-weight: 700;
-        font-size: 0.75rem;
-        transition: color 0.2s ease;
-        padding: 20px 0;
-        cursor: pointer;
-        text-transform: uppercase;
-      }
-      nav ul li a:hover {
-        color: #d50000;
-      }
-      .nav-highlight {
-        color: #d50000 !important;
-        font-weight: 900 !important;
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(10px);
-        background-color: var(--nav-bg);
-        min-width: 180px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        border-radius: 8px;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.2s ease;
-        display: flex;
-        flex-direction: column;
-        padding: 8px 0;
-        border: 1px solid var(--border-color);
-      }
-      .dropdown:hover .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
-      }
-      .dropdown-menu li {
-        width: 100%;
-      }
-      .dropdown-menu li a {
-        display: block;
-        padding: 10px 15px;
-        font-size: 0.75rem;
-        text-align: center;
-      }
-      .dropdown-menu li a:hover {
-        background-color: var(--hover-bg);
-        color: #d50000;
-      }
-
-      .back-btn {
-        display: inline-flex;
-        align-items: center;
-        font-family: "Inter", sans-serif;
-        font-weight: 700;
-        font-size: 0.85rem;
-        color: #d50000;
-        background: transparent;
-        border: 2px solid #d50000;
-        padding: 8px 20px;
-        border-radius: 30px;
-        cursor: pointer;
-        margin-bottom: 30px;
-        transition: all 0.2s ease;
-        text-transform: uppercase;
-      }
-      .back-btn:hover {
-        background-color: #d50000;
-        color: #ffffff;
-      }
-
-      /* =========================================
-           PHYSICAL FIRST SLIDE (Zero Overlap & Lag)
-           ========================================= */
-      #intro-section {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        background-color: var(--bg-color);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        z-index: 20;
-      }
-
-      .image-container {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-        position: absolute;
-        z-index: 2;
-      }
-      .img-wrapper {
-        width: 200px;
-        height: 200px;
-        background: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        will-change: transform, opacity;
-        transition:
-          transform 1s cubic-bezier(0.25, 1, 0.5, 1),
-          opacity 0.6s ease;
-      }
-      .img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        pointer-events: none;
-      }
-
-      .scattered .img-1 {
-        transform: translate3d(-18vw, -18vh, 0) scale(0.9);
-      }
-      .scattered .img-2 {
-        transform: translate3d(0vw, 20vh, 0) scale(0.9);
-      }
-      .scattered .img-3 {
-        transform: translate3d(18vw, -18vh, 0) scale(0.9);
-      }
-
-      .text-wrapper {
-        position: absolute;
-        z-index: 10;
-        text-align: center;
-        opacity: 0;
-        transform: scale(0.5);
-        will-change: transform, opacity;
-        transition:
-          transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.8s ease;
-        width: 90vw;
-        max-width: 900px;
-      }
-      .scattered .text-wrapper {
-        opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-
-      .title-svg {
-        width: 100%;
-        height: auto;
-        overflow: visible;
-      }
-      .main-text-svg,
-      .sub-text-svg {
-        font-family: "Bebas Neue", sans-serif;
-        font-style: normal;
-        fill: url(#glossyRed);
-        stroke: url(#glossyRed);
-      }
-      /* Fluid SVG Typography */
-      .main-text-svg {
-        font-size: clamp(40px, 8vw, 100px);
-        stroke-width: 1px;
-        letter-spacing: 3px;
-      }
-      .sub-text-svg {
-        font-size: clamp(14px, 3vw, 24px);
-        stroke-width: 0.5px;
-        letter-spacing: 4px;
-      }
-
-      body.scrolled #intro-section .img-wrapper,
-      body.scrolled #intro-section .text-wrapper {
-        transform: scale(0.6) translate3d(0, -15vh, 0) !important;
-        opacity: 0 !important;
-      }
-
-      /* =========================================
-           MAIN VIEW: FULL PAGE AUTO-SLIDER 
-           ========================================= */
-      #slider-section {
-        position: relative;
-        width: 100%;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        padding-top: 65px;
-        background-color: var(--bg-color);
-      }
-      .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px 8vw;
-        text-align: center;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.4s ease-out;
-        pointer-events: none;
-        overflow-y: auto; /* Allows scrolling if content is tall */
-      }
-      .slide.active {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-        z-index: 10;
-      }
-
-      .slide h2 {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(3rem, 8vw, 5rem); /* Fluid sizing */
-        color: #d50000;
-        letter-spacing: 2px;
-        margin-bottom: 20px;
-        line-height: 1;
-      }
-      .slide p {
-        font-family: "Inter", sans-serif;
-        font-size: clamp(1rem, 2.5vw, 1.3rem); /* Fluid sizing */
-        line-height: 1.6;
-        max-width: 1000px;
-        font-weight: 500;
-        margin-bottom: 12px;
-        color: var(--text-color);
-      }
-      .slide ul {
-        text-align: left;
-        max-width: 900px;
-        margin: 12px auto;
-        font-family: "Inter", sans-serif;
-        font-size: clamp(0.95rem, 2vw, 1.15rem);
-        line-height: 1.7;
-        color: var(--text-color);
-        list-style: none;
-      }
-      .slide li {
-        margin-bottom: 8px;
-      }
-      .slide strong {
-        color: #d50000;
-      }
-
-      .iso-cert-container {
-        width: 100%;
-        max-width: 320px;
-        margin: 15px auto 0 auto;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        border: 4px solid var(--card-bg);
-      }
-      .iso-cert-container img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-
-      .dots-container {
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 12px;
-        z-index: 20;
-      }
-      .dot {
-        width: 12px;
-        height: 12px;
-        background-color: #888888;
-        border-radius: 50%;
-        cursor: pointer;
-        transition:
-          background-color 0.2s ease,
-          transform 0.2s ease;
-      }
-      .dot.active {
-        background-color: #d50000;
-        transform: scale(1.3);
-      }
-
-      /* =========================================
-           DEDICATED VIEWS (Machines, Equipments, Products)
-           ========================================= */
-      .dedicated-section {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 120px 8vw 80px 8vw;
-        min-height: 100vh;
-      }
-      .section-header {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(3.5rem, 8vw, 4.5rem);
-        color: #d50000;
-        margin-bottom: 30px;
-        letter-spacing: 2px;
-        line-height: 1;
-      }
-      .interactive-list {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 35px;
-        width: 100%;
-        max-width: 1200px;
-      }
-      .interactive-item {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        cursor: pointer;
-        width: 100%;
-      }
-      .item-text-content {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        flex: 1;
-      }
-
-      .interactive-name {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(2.5rem, 6vw, 5rem); /* Prevents overflow */
-        color: #b3b3b3;
-        transition:
-          color 0.2s ease,
-          transform 0.2s ease;
-        line-height: 1.1;
-        letter-spacing: 1px;
-        transform-origin: left center;
-        word-wrap: break-word;
-        white-space: normal;
-      }
-      .item-desc {
-        font-family: "Inter", sans-serif;
-        font-size: clamp(0.9rem, 2vw, 1rem);
-        color: #888;
-        line-height: 1.5;
-        max-width: 650px;
-      }
-      .interactive-item:hover .interactive-name,
-      .interactive-item.active .interactive-name {
-        color: var(--text-color);
-        transform: scale(1.02);
-      }
-
-      .mini-slideshow {
-        width: 260px;
-        height: 160px;
-        position: relative;
-        border-radius: 10px;
-        overflow: hidden;
-        flex-shrink: 0;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        background-color: #fff;
-        opacity: 0;
-        transform: scale(0.95);
-        transition: all 0.25s ease;
-      }
-      .interactive-item:hover .mini-slideshow,
-      .interactive-item.active .mini-slideshow {
-        opacity: 1;
-        transform: scale(1);
-      }
-      .slide-img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0;
-      }
-
-      .interactive-item:hover .img-1,
-      .interactive-item.active .img-1 {
-        animation: snap1 1.2s infinite;
-      }
-      .interactive-item:hover .img-2,
-      .interactive-item.active .img-2 {
-        animation: snap2 1.2s infinite;
-      }
-      .interactive-item:hover .img-3,
-      .interactive-item.active .img-3 {
-        animation: snap3 1.2s infinite;
-      }
-
-      @keyframes snap1 {
-        0%,
-        33.33% {
-          opacity: 1;
-        }
-        33.34%,
-        100% {
-          opacity: 0;
-        }
-      }
-      @keyframes snap2 {
-        0%,
-        33.33% {
-          opacity: 0;
-        }
-        33.34%,
-        66.66% {
-          opacity: 1;
-        }
-        66.67%,
-        100% {
-          opacity: 0;
-        }
-      }
-      @keyframes snap3 {
-        0%,
-        66.66% {
-          opacity: 0;
-        }
-        66.67%,
-        100% {
-          opacity: 1;
-        }
-      }
-
-      .single-img {
-        opacity: 1 !important;
-      }
-
-      /* =========================================
-           DUAL MARQUEES (Foundries & Customers)
-           ========================================= */
-      .marquee-section {
-        padding: 40px 0;
-        background-color: var(--bg-color);
-        overflow: hidden;
-      }
-      .marquee-title {
-        text-align: center;
-        font-family: "Montserrat", sans-serif;
-        font-weight: 900;
-        font-size: clamp(1.2rem, 4vw, 1.8rem);
-        color: var(--text-color);
-        letter-spacing: 1.5px;
-        margin-bottom: 25px;
-        text-transform: uppercase;
-      }
-      .marquee-wrapper {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        background-color: var(--nav-bg);
-        padding: 30px 0;
-        border-top: 1px solid var(--border-color);
-        border-bottom: 1px solid var(--border-color);
-      }
-      .marquee-content {
-        display: flex;
-        width: max-content;
-        animation: scrollMarquee 20s linear infinite;
-        align-items: center;
-      }
-      .marquee-content img {
-        height: clamp(35px, 6vw, 50px);
-        margin: 0 clamp(20px, 4vw, 45px);
-        object-fit: contain;
-        filter: grayscale(100%) contrast(1.2);
-        opacity: 0.65;
-        transition: all 0.2s ease;
-      }
-      .marquee-content img:hover {
-        filter: grayscale(0%);
-        opacity: 1;
-        transform: scale(1.08);
-      }
-      @keyframes scrollMarquee {
-        0% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(-50%);
-        }
-      }
-
-      /* =========================================
-           CONTACT US FOOTER
-           ========================================= */
-      footer {
-        background-color: #111111;
-        color: #ffffff;
-        padding: 80px 8vw;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 40px;
-      }
-      .footer-col h4 {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 2.2rem;
-        color: #d50000;
-        margin-bottom: 20px;
-        letter-spacing: 1.5px;
-      }
-      .person-block {
-        margin-bottom: 20px;
-      }
-      .person-title {
-        display: block;
-        font-family: "Inter", sans-serif;
-        font-size: 0.85rem;
-        color: #888888;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 3px;
-        font-weight: 600;
-      }
-      .person-name {
-        display: block;
-        font-family: "Montserrat", sans-serif;
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 3px;
-      }
-      .footer-col p,
-      .footer-col a {
-        font-family: "Inter", sans-serif;
-        font-size: 0.95rem;
-        color: #cccccc;
-        line-height: 1.6;
-        text-decoration: none;
-        display: block;
-        margin-bottom: 8px;
-        transition: color 0.2s ease;
-      }
-      .footer-col a:hover {
-        color: #d50000;
-      }
-
-      /* =========================================
-           MOBILE UX PERFECTION
-           ========================================= */
-      @media (max-width: 950px) {
         header {
-          padding: 10px 15px;
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--nav-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 2vw; z-index: 9000;
+            transition: background-color 0.3s ease;
+            height: 70px;
         }
+        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 9001; }
+        .logo-container img { height: 35px; width: auto; object-fit: contain; }
+        .logo-container span {
+            font-family: 'Montserrat', sans-serif; font-weight: 900;
+            font-size: clamp(1rem, 2vw, 1.1rem); letter-spacing: 0.5px; color: #d50000;
+            white-space: nowrap;
+        }
+        
         .menu-icon {
-          display: block;
+            display: none; font-size: 28px; cursor: pointer; 
+            color: var(--text-color); z-index: 9001; padding: 10px;
         }
 
-        nav {
-          width: 100%;
-          position: absolute;
-          top: 65px;
-          left: 0;
+        nav { display: flex; justify-content: flex-end; height: 100%; align-items: center; }
+        nav ul { 
+            list-style: none; display: flex; gap: 1.5vw; 
+            align-items: center; height: 100%; margin: 0;
         }
-        nav ul {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          background: var(--nav-bg);
-          padding: 0;
-          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-          max-height: 0;
-          overflow: hidden;
-          white-space: normal;
-          border-top: 1px solid var(--border-color);
-        }
-        nav ul.show {
-          max-height: 500px;
-          padding: 10px 0;
-        }
-        nav ul li {
-          width: 100%;
-          border-bottom: 1px solid var(--border-color);
-        }
-        nav ul li:last-child {
-          border-bottom: none;
-        }
+        nav ul li { height: 100%; display: flex; align-items: center; position: relative; }
         nav ul li a {
-          display: block;
-          width: 100%;
-          padding: 15px 20px;
-          font-size: 0.9rem;
-          text-align: left;
+            text-decoration: none; color: var(--text-color);
+            font-family: 'Inter', sans-serif; font-weight: 700;
+            font-size: 0.75rem; transition: color 0.2s ease;
+            padding: 10px 0; cursor: pointer; text-transform: uppercase;
         }
+        nav ul li a:hover { color: #d50000; }
+        .nav-highlight { color: #d50000 !important; font-weight: 900 !important; }
 
         .dropdown-menu {
-          display: none !important;
-        } /* Hidden on mobile to keep flow clean */
-
-        .image-container {
-          flex-direction: column;
-          gap: 10px;
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px);
+            background-color: var(--nav-bg); min-width: 200px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); border-radius: 8px; 
+            opacity: 0; visibility: hidden; transition: all 0.2s ease;
+            display: flex; flex-direction: column; padding: 10px 0;
+            border: 1px solid var(--border-color);
         }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-menu li { width: 100%; height: auto; }
+        .dropdown-menu li a { display: block; padding: 12px 20px; font-size: 0.8rem; text-align: left; }
+        .dropdown-menu li a:hover { background-color: var(--hover-bg); color: #d50000; }
+
+        .back-btn {
+            display: inline-flex; align-items: center;
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.85rem;
+            color: #d50000; background: transparent; border: 2px solid #d50000;
+            padding: 8px 20px; border-radius: 30px; cursor: pointer;
+            margin-bottom: 30px; transition: all 0.2s ease; text-transform: uppercase;
+        }
+        .back-btn:hover { background-color: #d50000; color: #ffffff; }
+
+        /* =========================================
+           SOLID CURTAIN INTRO (Zero Overlap & Lag)
+           ========================================= */
+        #intro-section {
+            position: relative; width: 100%; height: 100vh;
+            background-color: var(--bg-color); 
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; z-index: 20;
+        }
+
+        .image-container { display: flex; flex-direction: row; gap: 20px; position: absolute; z-index: 2; }
         .img-wrapper {
-          width: 100px;
-          height: 100px;
+            width: clamp(100px, 15vw, 200px); height: clamp(100px, 15vw, 200px); 
+            background: transparent; display: flex; justify-content: center; align-items: center;
+            will-change: transform, opacity; 
+            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
         }
-        .scattered .img-1 {
-          transform: translate3d(0, -18vh, 0) scale(0.9);
+        .img-wrapper img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        
+        .scattered .img-1 { transform: translate3d(-18vw, -18vh, 0) scale(0.9); }
+        .scattered .img-2 { transform: translate3d(0vw, 20vh, 0) scale(0.9); }
+        .scattered .img-3 { transform: translate3d(18vw, -18vh, 0) scale(0.9); }
+
+        .text-wrapper {
+            position: absolute; z-index: 10; text-align: center; opacity: 0;
+            transform: scale(0.5); will-change: transform, opacity;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+            width: 90vw; max-width: 900px;
         }
-        .scattered .img-2 {
-          transform: translate3d(-18vw, 15vh, 0) scale(0.9);
+        .scattered .text-wrapper { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+
+        .title-svg { width: 100%; height: auto; overflow: visible; }
+        .main-text-svg, .sub-text-svg {
+            font-family: 'Bebas Neue', sans-serif; font-style: normal; 
+            fill: url(#glossyRed); stroke: url(#glossyRed); 
         }
-        .scattered .img-3 {
-          transform: translate3d(18vw, 15vh, 0) scale(0.9);
+        .main-text-svg { font-size: clamp(50px, 8vw, 100px); stroke-width: 1px; letter-spacing: 3px; }
+        .sub-text-svg { font-size: clamp(16px, 3vw, 24px); stroke-width: 0.5px; letter-spacing: 4px; }
+
+        body.scrolled #intro-section .img-wrapper,
+        body.scrolled #intro-section .text-wrapper {
+            transform: scale(0.6) translate3d(0, -15vh, 0) !important;
+            opacity: 0 !important;
         }
 
+        /* =========================================
+           MAIN VIEW: FULL PAGE AUTO-SLIDER 
+           ========================================= */
         #slider-section {
-          height: auto;
-          min-height: 100vh;
-          padding-top: 80px;
+            position: relative; width: 100%; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; padding: 90px 5vw 80px 5vw;
+            background-color: var(--bg-color);
         }
+        
         .slide {
-          position: relative;
-          padding: 20px 5vw;
-          opacity: 0;
-          display: none;
-          transform: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px 8vw; text-align: center; opacity: 0; visibility: hidden;
+            transform: translateY(20px); transition: all 0.4s ease-out;
+            pointer-events: none;
         }
-        .slide.active {
-          display: flex;
-          opacity: 1;
-        }
-        .dots-container {
-          position: relative;
-          bottom: 0;
-          margin-top: 25px;
+        .slide.active { 
+            opacity: 1; visibility: visible; 
+            transform: translateY(0); pointer-events: auto; z-index: 10; 
         }
 
+        .slide h2 {
+            font-family: 'Bebas Neue', sans-serif; 
+            font-size: clamp(3rem, 6vw, 5rem); 
+            color: #d50000; letter-spacing: 2px; margin-bottom: 20px; line-height: 1;
+        }
+        .slide p {
+            font-family: 'Inter', sans-serif; font-size: clamp(1rem, 2vw, 1.3rem);
+            line-height: 1.6; max-width: 1000px; font-weight: 500; margin-bottom: 12px;
+            color: var(--text-color);
+        }
+        .slide ul {
+            text-align: left; max-width: 900px; margin: 12px auto; 
+            font-family: 'Inter', sans-serif; font-size: clamp(0.95rem, 1.8vw, 1.15rem); 
+            line-height: 1.7; color: var(--text-color); list-style: none;
+        }
+        .slide li { margin-bottom: 8px; }
+        .slide strong { color: #d50000; }
+
+        .iso-cert-container {
+            width: 100%; max-width: 320px; margin: 15px auto 0 auto;
+            border-radius: 8px; overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); border: 4px solid var(--card-bg);
+        }
+        .iso-cert-container img { width: 100%; height: auto; display: block; }
+
+        .dots-container {
+            position: absolute; bottom: 30px; left: 50%;
+            transform: translateX(-50%); display: flex; gap: 12px; z-index: 20;
+        }
+        .dot {
+            width: 12px; height: 12px; background-color: #888888;
+            border-radius: 50%; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .dot.active { background-color: #d50000; transform: scale(1.3); }
+
+        /* =========================================
+           DEDICATED VIEWS (Machines, Equipments, Products)
+           ========================================= */
         .dedicated-section {
-          padding: 100px 5vw 60px 5vw;
+            display: flex; flex-direction: column; align-items: flex-start;
+            padding: 120px 8vw 80px 8vw; min-height: 100vh;
+        }
+        .section-header {
+            font-family: "Bebas Neue", sans-serif; font-size: clamp(3.5rem, 6vw, 4.5rem);
+            color: #d50000; margin-bottom: 30px; letter-spacing: 2px; line-height: 1.1;
+        }
+        .interactive-list {
+            display: flex; flex-direction: column; align-items: flex-start;
+            gap: 35px; width: 100%; max-width: 1200px;
         }
         .interactive-item {
-          gap: 15px;
-          flex-direction: column;
-          align-items: flex-start;
+            display: flex; align-items: center; gap: 30px; cursor: pointer; width: 100%;
         }
+        
+        .item-text-content { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .interactive-name {
+            font-family: "Bebas Neue", sans-serif; font-size: clamp(3rem, 5vw, 5rem);
+            color: #b3b3b3; transition: color 0.2s ease, transform 0.2s ease;
+            line-height: 1; letter-spacing: 1px; transform-origin: left center; 
+        }
+        .item-desc {
+            font-family: 'Inter', sans-serif; font-size: clamp(0.9rem, 1.5vw, 1rem); 
+            color: #888; line-height: 1.5; max-width: 650px;
+        }
+        .interactive-item:hover .interactive-name, .interactive-item.active .interactive-name {
+            color: var(--text-color); transform: scale(1.02);
+        }
+
         .mini-slideshow {
-          width: 100%;
-          height: 200px;
-          transform-origin: top;
+            width: clamp(200px, 30vw, 280px); height: clamp(120px, 20vw, 180px); position: relative;
+            border-radius: 10px; overflow: hidden; flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); background-color: #fff;
+            opacity: 0; transform: scale(0.95); transition: all 0.25s ease;
         }
-      }
+        .interactive-item:hover .mini-slideshow, .interactive-item.active .mini-slideshow {
+            opacity: 1; transform: scale(1);
+        }
+        .slide-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+
+        .interactive-item:hover .img-1, .interactive-item.active .img-1 { animation: snap1 1.2s infinite; }
+        .interactive-item:hover .img-2, .interactive-item.active .img-2 { animation: snap2 1.2s infinite; }
+        .interactive-item:hover .img-3, .interactive-item.active .img-3 { animation: snap3 1.2s infinite; }
+
+        @keyframes snap1 { 0%, 33.33% { opacity: 1; } 33.34%, 100% { opacity: 0; } }
+        @keyframes snap2 { 0%, 33.33% { opacity: 0; } 33.34%, 66.66% { opacity: 1; } 66.67%, 100% { opacity: 0; } }
+        @keyframes snap3 { 0%, 66.66% { opacity: 0; } 66.67%, 100% { opacity: 1; } }
+
+        .single-img { opacity: 1 !important; }
+
+        /* =========================================
+           DUAL MARQUEES (Foundries & Customers)
+           ========================================= */
+        .marquee-section { padding: 40px 0; background-color: var(--bg-color); overflow: hidden; }
+        .marquee-title {
+            text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 900;
+            font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--text-color); letter-spacing: 1.5px;
+            margin-bottom: 25px; text-transform: uppercase;
+        }
+        .marquee-wrapper {
+            width: 100%; overflow: hidden; position: relative;
+            background-color: var(--nav-bg); padding: 30px 0;
+            border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+        }
+        .marquee-content { display: flex; width: max-content; animation: scrollMarquee 20s linear infinite; align-items: center; }
+        .marquee-content img {
+            height: clamp(35px, 5vw, 50px); margin: 0 clamp(20px, 4vw, 45px); object-fit: contain;
+            filter: grayscale(100%) contrast(1.2); opacity: 0.65; transition: all 0.2s ease;
+        }
+        .marquee-content img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.08); }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* =========================================
+           CONTACT US FOOTER
+           ========================================= */
+        footer {
+            background-color: #111111; color: #ffffff;
+            padding: 80px 8vw; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px;
+        }
+        .footer-col h4 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: #d50000; margin-bottom: 20px; letter-spacing: 1.5px; }
+        .person-block { margin-bottom: 20px; }
+        .person-title { display: block; font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #888888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; font-weight: 600; }
+        .person-name { display: block; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 3px; }
+        .footer-col p, .footer-col a {
+            font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #cccccc; line-height: 1.6; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s ease;
+        }
+        .footer-col a:hover { color: #d50000; }
+
+        /* =========================================
+           MOBILE UX PERFECTION (Phones & Tablets)
+           ========================================= */
+        @media (max-width: 950px) {
+            
+            /* Clean Header: Logo Left, Hamburger Right */
+            header { padding: 0 5vw; height: 70px; }
+            .menu-icon { display: block; }
+            
+            /* Slide-in Mobile Menu */
+            nav {
+                position: fixed; top: 70px; right: -100%;
+                width: 100%; height: calc(100vh - 70px);
+                background-color: var(--nav-bg);
+                transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+                display: flex; flex-direction: column; justify-content: flex-start;
+                padding: 20px 5vw 80px 5vw; overflow-y: auto; z-index: 8999;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+            }
+            nav.open { right: 0; }
+            
+            nav ul { flex-direction: column; align-items: flex-start; width: 100%; gap: 0; }
+            nav ul li { width: 100%; border-bottom: 1px solid var(--border-color); height: auto; }
+            nav ul li:last-child { border-bottom: none; }
+            
+            nav ul li a { 
+                font-size: 1.1rem; padding: 20px 10px; display: block; width: 100%; 
+            }
+            
+            /* Show Dropdowns inline on Mobile */
+            .dropdown-menu {
+                position: relative; top: 0; left: 0; transform: none; box-shadow: none; border: none;
+                display: flex; opacity: 1; visibility: visible;
+                background-color: transparent; padding: 0 0 10px 20px;
+                border-top: none;
+            }
+            .dropdown-menu li { border-bottom: none; }
+            .dropdown-menu li a { padding: 10px; font-size: 0.95rem; color: #888; }
+            
+            /* Intro Tightening for Mobile */
+            .scattered .img-1 { transform: translate3d(0, -15vh, 0) scale(0.85); }
+            .scattered .img-2 { transform: translate3d(-20vw, 15vh, 0) scale(0.85); }
+            .scattered .img-3 { transform: translate3d(20vw, 15vh, 0) scale(0.85); }
+
+            /* Fix Mobile Slider Overlap & Gaps */
+            #slider-section { 
+                min-height: auto; height: auto; padding: 60px 0; 
+            }
+            /* The magic trick to fix height collapsing: Inactive slides are completely hidden, Active slide dictates parent height naturally */
+            .slide { position: absolute; opacity: 0; visibility: hidden; padding: 20px 5vw; }
+            .slide.active { position: relative; opacity: 1; visibility: visible; }
+            .dots-container { position: relative; bottom: 0; margin-top: 25px; }
+
+            .dedicated-section { padding: 100px 5vw 60px 5vw; }
+            .interactive-item { gap: 15px; flex-direction: column; align-items: flex-start; }
+            .mini-slideshow { width: 100%; height: 220px; transform-origin: top left; margin-top: 10px; }
+            
+            footer { padding: 60px 5vw; gap: 30px; }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
+
     <!-- Theme Toggle -->
     <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
 
-    <!-- Header / Navigation -->
+    <!-- Clean Mobile-Optimized Header -->
     <header id="main-header">
-      <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
-        <img
-          src="1.png"
-          alt="Company Logo"
-          onerror="this.style.display = 'none'"
-        />
-        <span class="logo-text">MARVELOUS PRECISION</span>
-      </div>
+        <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
+            <img src="1.png" alt="Company Logo" onerror="this.style.display='none'">
+            <span class="logo-text">MARVELOUS PRECISION</span>
+        </div>
+        
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
-      <!-- Mobile Hamburger Menu Icon -->
-      <div class="menu-icon" onclick="toggleMenu()">☰</div>
-
-      <nav>
-        <ul class="nav-links" id="nav-menu">
-          <li>
-            <a onclick="navigateTo('main-view', 'slider-section', 0)"
-              >About Us</a
-            >
-          </li>
-          <li>
-            <a onclick="navigateTo('main-view', 'slider-section', 3)"
-              >Infrastructure</a
-            >
-          </li>
-          <li>
-            <a onclick="navigateTo('main-view', 'slider-section', 4)"
-              >Quality</a
-            >
-          </li>
-          <li>
-            <a onclick="navigateTo('main-view', 'slider-section', 5)"
-              >ISO Cert</a
-            >
-          </li>
-          <li class="dropdown">
-            <a onclick="navigateTo('machines-view', null)"
-              >Machine Facilities ▾</a
-            >
-            <ul class="dropdown-menu">
-              <li>
-                <a onclick="navigateTo('machines-view', null)">CNC Machines</a>
-              </li>
-              <li>
-                <a onclick="navigateTo('machines-view', null)">VMC Machines</a>
-              </li>
-              <li>
-                <a onclick="navigateTo('machines-view', null)">HMC Machines</a>
-              </li>
+        <nav id="mobile-nav">
+            <ul class="nav-links">
+                <li><a onclick="navigateTo('main-view', 'slider-section', 0)">About Us</a></li>
+                <li><a onclick="navigateTo('main-view', 'slider-section', 3)">Infrastructure</a></li>
+                <li><a onclick="navigateTo('main-view', 'slider-section', 4)">Quality</a></li>
+                <li><a onclick="navigateTo('main-view', 'slider-section', 5)">ISO Cert</a></li>
+                <li class="dropdown">
+                    <a onclick="navigateTo('machines-view', null)" style="color: #d50000;">Machine Facilities ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="navigateTo('machines-view', null)">CNC Machines</a></li>
+                        <li><a onclick="navigateTo('machines-view', null)">VMC Machines</a></li>
+                        <li><a onclick="navigateTo('machines-view', null)">HMC Machines</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a onclick="navigateTo('equipments-view', null)" style="color: #d50000;">Inspection Equipments ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a onclick="navigateTo('equipments-view', null)">Digimar Height Gauge</a></li>
+                        <li><a onclick="navigateTo('equipments-view', null)">CMM Spectra</a></li>
+                        <li><a onclick="navigateTo('equipments-view', null)">Vernier Calipers</a></li>
+                        <li><a onclick="navigateTo('equipments-view', null)">Bore Dial Gauge</a></li>
+                    </ul>
+                </li>
+                <li><a onclick="navigateTo('products-view', null)" class="nav-highlight">Products</a></li>
+                <li><a onclick="navigateTo('main-view', 'contact-section')">Contact</a></li>
             </ul>
-          </li>
-          <li class="dropdown">
-            <a onclick="navigateTo('equipments-view', null)"
-              >Inspection Equipments ▾</a
-            >
-            <ul class="dropdown-menu">
-              <li>
-                <a onclick="navigateTo('equipments-view', null)"
-                  >Digimar Height Gauge</a
-                >
-              </li>
-              <li>
-                <a onclick="navigateTo('equipments-view', null)">CMM Spectra</a>
-              </li>
-              <li>
-                <a onclick="navigateTo('equipments-view', null)"
-                  >Vernier Calipers</a
-                >
-              </li>
-              <li>
-                <a onclick="navigateTo('equipments-view', null)"
-                  >Bore Dial Gauge</a
-                >
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a onclick="navigateTo('products-view', null)" class="nav-highlight"
-              >Products</a
-            >
-          </li>
-          <li>
-            <a onclick="navigateTo('main-view', 'contact-section')">Contact</a>
-          </li>
-        </ul>
-      </nav>
+        </nav>
     </header>
 
     <!-- =======================================================
          VIEW 1: MAIN HOME VIEW
          ======================================================= -->
     <div id="main-view" class="page-view active">
-      <!-- Physical First Slide (Zero Overlap & Lag) -->
-      <section id="intro-section">
-        <div class="image-container" id="img-container">
-          <div class="img-wrapper img-1"><img src="1.png" alt="Image 1" /></div>
-          <div class="img-wrapper img-2"><img src="2.png" alt="Image 2" /></div>
-          <div class="img-wrapper img-3"><img src="3.png" alt="Image 3" /></div>
-        </div>
-        <div class="text-wrapper" id="intro-text">
-          <svg class="title-svg" viewBox="0 0 1000 200">
-            <defs>
-              <linearGradient id="glossyRed" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#ff4b4b" />
-                <stop offset="50%" stop-color="#d50000" />
-                <stop offset="100%" stop-color="#8a0000" />
-              </linearGradient>
-            </defs>
-            <text
-              x="50%"
-              y="45%"
-              text-anchor="middle"
-              dominant-baseline="middle"
-              class="main-text-svg"
-            >
-              MARVELOUS PRECISION
-            </text>
-            <text
-              x="90%"
-              y="85%"
-              text-anchor="end"
-              dominant-baseline="middle"
-              class="sub-text-svg"
-            >
-              PVT. LTD.
-            </text>
-          </svg>
-        </div>
-      </section>
+        
+        <!-- Physical First Slide -->
+        <section id="intro-section">
+            <div class="image-container" id="img-container">
+                <div class="img-wrapper img-1"><img src="1.png" alt="Image 1"></div>
+                <div class="img-wrapper img-2"><img src="2.png" alt="Image 2"></div>
+                <div class="img-wrapper img-3"><img src="3.png" alt="Image 3"></div>
+            </div>
+            <div class="text-wrapper" id="intro-text">
+                <svg class="title-svg" viewBox="0 0 1000 200">
+                    <defs>
+                        <linearGradient id="glossyRed" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#ff4b4b" />
+                            <stop offset="50%" stop-color="#d50000" />
+                            <stop offset="100%" stop-color="#8a0000" />
+                        </linearGradient>
+                    </defs>
+                    <text x="50%" y="45%" text-anchor="middle" dominant-baseline="middle" class="main-text-svg">MARVELOUS PRECISION</text>
+                    <text x="90%" y="85%" text-anchor="end" dominant-baseline="middle" class="sub-text-svg">PVT. LTD.</text>
+                </svg>
+            </div>
+        </section>
 
-      <!-- Dynamic Full Page Slider (Sits immediately below Intro) -->
-      <section id="slider-section">
-        <div class="slide active">
-          <h2>About Us</h2>
-          <p>
-            We specialize in delivering precision machined components that meet
-            the highest standards of quality and reliability. Located in Gokul
-            Shirgaon MIDC Kolhapur, Maharashtra, our machine shop is equipped
-            with advanced CNC, VMC, and HMC machines, along with
-            state-of-the-art measuring instruments including a Digital Height
-            Gauge and CMM.
-          </p>
-          <p>
-            With a strong commitment to quality, innovation, and customer
-            satisfaction, we provide machining solutions for industries such as
-            automotive, hydraulics, power transmission, agriculture machinery
-            and custom OEMs.
-          </p>
-          <p
-            style="
-              color: #d50000;
-              font-weight: 700;
-              margin-top: 15px;
-              font-size: clamp(1.1rem, 3vw, 1.4rem);
-              font-family: &quot;Montserrat&quot;, sans-serif;
-              font-style: italic;
-            "
-          >
-            Quintessence of our business is ‘Just in Time’ delivery!
-          </p>
-        </div>
+        <!-- Dynamic Full Page Slider -->
+        <section id="slider-section">
+            <div class="slide active">
+                <h2>About Us</h2>
+                <p>We specialize in delivering precision machined components that meet the highest standards of quality and reliability. Located in Gokul Shirgaon MIDC Kolhapur, Maharashtra, our machine shop is equipped with advanced CNC, VMC, and HMC machines, along with state-of-the-art measuring instruments including a Digital Height Gauge and CMM.</p>
+                <p>With a strong commitment to quality, innovation, and customer satisfaction, we provide machining solutions for industries such as automotive, hydraulics, power transmission, agriculture machinery and custom OEMs.</p>
+                <p style="color: #d50000; font-weight: 700; margin-top: 15px; font-style: italic;">Quintessence of our business is ‘Just in Time’ delivery!</p>
+            </div>
 
-        <div class="slide">
-          <h2>Vision & Mission</h2>
-          <p>
-            <strong>Our Vision:</strong> To achieve global recognition by
-            delivering precision-engineered components with uncompromised
-            quality.
-          </p>
-          <p>
-            <strong>Our Mission:</strong> To create value for our clients with
-            precision, timely delivery, and cost-effective solutions, powered by
-            a motivated workforce.
-          </p>
-          <p style="margin-top: 15px"><strong>Core Values:</strong></p>
-          <ul>
-            <li>• Integrity and Ethics through Transparency.</li>
-            <li>• Impartial Counsel and Validation.</li>
-            <li>• Respect for all Individuals across the echelon.</li>
-            <li>
-              • Social and Environmental Responsibility (SCR) through
-              eco-friendly practices.
-            </li>
-          </ul>
-        </div>
+            <div class="slide">
+                <h2>Vision & Mission</h2>
+                <p><strong>Our Vision:</strong> To achieve global recognition by delivering precision-engineered components with uncompromised quality.</p>
+                <p><strong>Our Mission:</strong> To create value for our clients with precision, timely delivery, and cost-effective solutions, powered by a motivated workforce.</p>
+                <p style="margin-top: 15px;"><strong>Core Values:</strong></p>
+                <ul>
+                    <li>• Integrity and Ethics through Transparency.</li>
+                    <li>• Impartial Counsel and Validation.</li>
+                    <li>• Respect for all Individuals across the echelon.</li>
+                    <li>• Social and Environmental Responsibility (SCR) through eco-friendly practices.</li>
+                </ul>
+            </div>
 
-        <div class="slide">
-          <h2>Registration Details</h2>
-          <ul
-            style="
-              max-width: 580px;
-              background: var(--card-bg);
-              padding: 25px 30px;
-              border-radius: 12px;
-              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-              border: 1px solid var(--border-color);
-            "
-          >
-            <li><strong>CIN:</strong> U29300PN2010PTC135369</li>
-            <li><strong>GST NUMBER:</strong> 27AAGCM3307B1Z7</li>
-            <li><strong>ROC:</strong> ROC – PUNE, MAHARASHTRA</li>
-            <li><strong>CLASS OF COMPANY:</strong> PRIVATE</li>
-            <li><strong>INCORPORATION:</strong> 20 JANUARY 2010</li>
-            <li><strong>EXPORTER CODE (IEC):</strong> 3109020611</li>
-            <li><strong>CERC NUMBER:</strong> AAGCM3307BEM001</li>
-          </ul>
-        </div>
+            <div class="slide">
+                <h2>Registration Details</h2>
+                <ul style="max-width: 580px; background: var(--card-bg); padding: 25px 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid var(--border-color);">
+                    <li><strong>CIN:</strong> U29300PN2010PTC135369</li>
+                    <li><strong>GST NUMBER:</strong> 27AAGCM3307B1Z7</li>
+                    <li><strong>ROC:</strong> ROC – PUNE, MAHARASHTRA</li>
+                    <li><strong>CLASS OF COMPANY:</strong> PRIVATE</li>
+                    <li><strong>INCORPORATION:</strong> 20 JANUARY 2010</li>
+                    <li><strong>EXPORTER CODE (IEC):</strong> 3109020611</li>
+                    <li><strong>CERC NUMBER:</strong> AAGCM3307BEM001</li>
+                </ul>
+            </div>
+            
+            <div class="slide">
+                <h2>Infrastructure</h2>
+                <p>Our eco-friendly manufacturing facility is located in the industrial suburb of Kolhapur, spread over a 6,000 sq. ft. plot, with a 2,800 sq. ft. built-up area in the first phase. The plant is designed to support sustainable operations and future expansion.</p>
+                <ul>
+                    <li>• <strong>Eco-Friendly Machines</strong> ensuring reduced environmental impact.</li>
+                    <li>• <strong>Indian Standard Electrical Distribution System</strong>, equivalent to CE Standards, providing reliability and safety.</li>
+                    <li>• <strong>Advanced Global Machines</strong> from proven manufacturers such as Askar, Cosmos, BFW, and Goodway, delivering precision and consistency in every component.</li>
+                </ul>
+            </div>
+            
+            <div class="slide">
+                <h2>Quality & Inspection</h2>
+                <p>We are proudly <strong>ISO 9001:2015</strong> certified for the Manufacture & Supply of Precision Machine Components.</p>
+                <p>Our Inspection Equipment Includes:</p>
+                <ul style="columns: 2; column-gap: 20px; margin-top: 10px;">
+                    <li>• <strong>ACCURATE CMM SPECTRA</strong></li>
+                    <li>• <strong>MAHR DIGIMAR 817 CLT</strong></li>
+                    <li>• <strong>INSIZE</strong> Vernier Caliper</li>
+                    <li>• <strong>INSIZE</strong> Depth Vernier</li>
+                    <li>• Precision Bore Dial Gauge</li>
+                </ul>
+            </div>
 
-        <div class="slide">
-          <h2>Infrastructure</h2>
-          <p>
-            Our eco-friendly manufacturing facility is located in the industrial
-            suburb of Kolhapur, spread over a 6,000 sq. ft. plot, with a 2,800
-            sq. ft. built-up area in the first phase. The plant is designed to
-            support sustainable operations and future expansion.
-          </p>
-          <ul>
-            <li>
-              • <strong>Eco-Friendly Machines</strong> ensuring reduced
-              environmental impact.
-            </li>
-            <li>
-              • <strong>Indian Standard Electrical Distribution System</strong>,
-              equivalent to CE Standards, providing reliability and safety.
-            </li>
-            <li>
-              • <strong>Advanced Global Machines</strong> from proven
-              manufacturers such as Askar, Cosmos, BFW, and Goodway, delivering
-              precision and consistency in every component.
-            </li>
-          </ul>
-        </div>
+            <div class="slide">
+                <h2>ISO 9001:2015 Certification</h2>
+                <p>Certified by ICL for international quality management and operational excellence.</p>
+                <div class="iso-cert-container">
+                    <img src="iso.png" alt="ISO 9001:2015 Certificate" onerror="this.src='https://via.placeholder.com/600x800?text=iso.png'">
+                </div>
+            </div>
 
-        <div class="slide">
-          <h2>Quality & Inspection</h2>
-          <p>
-            We are proudly <strong>ISO 9001:2015</strong> certified for the
-            Manufacture & Supply of Precision Machine Components.
-          </p>
-          <p>Our Inspection Equipment Includes:</p>
-          <ul style="columns: 2; column-gap: 20px; margin-top: 10px">
-            <li>• <strong>ACCURATE CMM SPECTRA</strong></li>
-            <li>• <strong>MAHR DIGIMAR 817 CLT</strong></li>
-            <li>• <strong>INSIZE</strong> Vernier Caliper</li>
-            <li>• <strong>INSIZE</strong> Depth Vernier</li>
-            <li>• Precision Bore Dial Gauge</li>
-          </ul>
-        </div>
+            <div class="dots-container">
+                <span class="dot active" onclick="goToSlide(0)"></span>
+                <span class="dot" onclick="goToSlide(1)"></span>
+                <span class="dot" onclick="goToSlide(2)"></span>
+                <span class="dot" onclick="goToSlide(3)"></span>
+                <span class="dot" onclick="goToSlide(4)"></span>
+                <span class="dot" onclick="goToSlide(5)"></span>
+            </div>
+        </section>
 
-        <div class="slide">
-          <h2>ISO 9001:2015 Certification</h2>
-          <p>
-            Certified by ICL for international quality management and
-            operational excellence.
-          </p>
-          <div class="iso-cert-container">
-            <img
-              src="iso.png"
-              alt="ISO 9001:2015 Certificate"
-              onerror="
-                this.src = 'https://via.placeholder.com/600x800?text=iso.png'
-              "
-            />
-          </div>
-        </div>
+        <!-- 1. Associated Foundries Marquee -->
+        <section class="marquee-section">
+            <h3 class="marquee-title">Associated Foundries</h3>
+            <div class="marquee-wrapper">
+                <div class="marquee-content">
+                    <img src="f1.png" alt="Foundry 1" onerror="this.src='https://via.placeholder.com/200x60?text=f1.png'">
+                    <img src="f2.png" alt="Foundry 2" onerror="this.src='https://via.placeholder.com/200x60?text=f2.png'">
+                    <img src="f1.png" alt="Foundry 1" onerror="this.src='https://via.placeholder.com/200x60?text=f1.png'">
+                    <img src="f2.png" alt="Foundry 2" onerror="this.src='https://via.placeholder.com/200x60?text=f2.png'">
+                    <img src="f1.png" alt="Foundry 1" onerror="this.src='https://via.placeholder.com/200x60?text=f1.png'">
+                    <img src="f2.png" alt="Foundry 2" onerror="this.src='https://via.placeholder.com/200x60?text=f2.png'">
+                </div>
+            </div>
+        </section>
 
-        <div class="dots-container">
-          <span class="dot active" onclick="goToSlide(0)"></span>
-          <span class="dot" onclick="goToSlide(1)"></span>
-          <span class="dot" onclick="goToSlide(2)"></span>
-          <span class="dot" onclick="goToSlide(3)"></span>
-          <span class="dot" onclick="goToSlide(4)"></span>
-          <span class="dot" onclick="goToSlide(5)"></span>
-        </div>
-      </section>
+        <!-- 2. Our Customers Marquee -->
+        <section class="marquee-section" style="padding-top: 0;">
+            <h3 class="marquee-title">Our Customers</h3>
+            <div class="marquee-wrapper">
+                <div class="marquee-content">
+                    <img src="w1.png" alt="Customer 1" onerror="this.src='https://via.placeholder.com/200x60?text=w1.png'">
+                    <img src="w2.png" alt="Customer 2" onerror="this.src='https://via.placeholder.com/200x60?text=w2.png'">
+                    <img src="w1.png" alt="Customer 1" onerror="this.src='https://via.placeholder.com/200x60?text=w1.png'">
+                    <img src="w2.png" alt="Customer 2" onerror="this.src='https://via.placeholder.com/200x60?text=w2.png'">
+                    <img src="w1.png" alt="Customer 1" onerror="this.src='https://via.placeholder.com/200x60?text=w1.png'">
+                    <img src="w2.png" alt="Customer 2" onerror="this.src='https://via.placeholder.com/200x60?text=w2.png'">
+                </div>
+            </div>
+        </section>
 
-      <!-- 1. Associated Foundries Marquee -->
-      <section class="marquee-section">
-        <h3 class="marquee-title">Associated Foundries</h3>
-        <div class="marquee-wrapper">
-          <div class="marquee-content">
-            <img
-              src="f1.png"
-              alt="Foundry 1"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=f1.png'
-              "
-            />
-            <img
-              src="f2.png"
-              alt="Foundry 2"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=f2.png'
-              "
-            />
-            <img
-              src="f1.png"
-              alt="Foundry 1"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=f1.png'
-              "
-            />
-            <img
-              src="f2.png"
-              alt="Foundry 2"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=f2.png'
-              "
-            />
-            <img
-              src="f1.png"
-              alt="Foundry 1"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=f1.png'
-              "
-            />
-            <img
-              src="f2.png"
-              alt="Foundry 2"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=f2.png'
-              "
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. Our Customers Marquee -->
-      <section class="marquee-section" style="padding-top: 0">
-        <h3 class="marquee-title">Our Customers</h3>
-        <div class="marquee-wrapper">
-          <div class="marquee-content">
-            <img
-              src="w1.png"
-              alt="Customer 1"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=w1.png'
-              "
-            />
-            <img
-              src="w2.png"
-              alt="Customer 2"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=w2.png'
-              "
-            />
-            <img
-              src="w1.png"
-              alt="Customer 1"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=w1.png'
-              "
-            />
-            <img
-              src="w2.png"
-              alt="Customer 2"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=w2.png'
-              "
-            />
-            <img
-              src="w1.png"
-              alt="Customer 1"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=w1.png'
-              "
-            />
-            <img
-              src="w2.png"
-              alt="Customer 2"
-              onerror="
-                this.src = 'https://via.placeholder.com/200x60?text=w2.png'
-              "
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer id="contact-section">
-        <div class="footer-col">
-          <h4>CONTACT US</h4>
-          <div class="person-block">
-            <span class="person-title">President</span>
-            <span class="person-name">Mr. Surjitsing Pawar</span>
-            <a href="tel:+917060511711">+91 7060511711</a>
-          </div>
-          <div class="person-block">
-            <span class="person-title">Director</span>
-            <span class="person-name">Mrs. Preeti Pawar</span>
-            <a href="tel:+917875717111">+91 7875717111</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>EMAIL</h4>
-          <a href="mailto:marvelousprecision@yahoo.com"
-            >marvelousprecision@yahoo.com</a
-          >
-          <a href="mailto:sonicalengineering@gmail.com"
-            >sonicalengineering@gmail.com</a
-          >
-          <a href="mailto:surjitpawar26@gmail.com">surjitpawar26@gmail.com</a>
-        </div>
-        <div class="footer-col">
-          <h4>ADDRESS</h4>
-          <p>
-            Plot No H-23 MIDC Gokul Shirgaon.<br />
-            Kolhapur - 416234, MAHARASTRA, INDIA
-          </p>
-        </div>
-      </footer>
+        <!-- Footer -->
+        <footer id="contact-section">
+            <div class="footer-col">
+                <h4>CONTACT US</h4>
+                <div class="person-block">
+                    <span class="person-title">President</span>
+                    <span class="person-name">Mr. Surjitsing Pawar</span>
+                    <a href="tel:+917060511711">+91 7060511711</a>
+                </div>
+                <div class="person-block">
+                    <span class="person-title">Director</span>
+                    <span class="person-name">Mrs. Preeti Pawar</span>
+                    <a href="tel:+917875717111">+91 7875717111</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>EMAIL</h4>
+                <a href="mailto:marvelousprecision@yahoo.com">marvelousprecision@yahoo.com</a>
+                <a href="mailto:sonicalengineering@gmail.com">sonicalengineering@gmail.com</a>
+                <a href="mailto:surjitpawar26@gmail.com">surjitpawar26@gmail.com</a>
+            </div>
+            <div class="footer-col">
+                <h4>ADDRESS</h4>
+                <p>
+                    Plot No H-23 MIDC Gokul Shirgaon.<br>
+                    Kolhapur - 416234, MAHARASTRA, INDIA
+                </p>
+            </div>
+        </footer>
     </div>
+
 
     <!-- =======================================================
          VIEW 2: DEDICATED MACHINE FACILITIES "TAB"
          ======================================================= -->
     <div id="machines-view" class="page-view">
-      <section class="dedicated-section">
-        <button
-          class="back-btn"
-          onclick="navigateTo('main-view', 'slider-section', 3)"
-        >
-          ← Back to Home
-        </button>
-        <h2 class="section-header">MACHINE FACILITIES</h2>
+        <section class="dedicated-section">
+            <button class="back-btn" onclick="navigateTo('main-view', 'slider-section', 3)">← Back to Home</button>
+            <h2 class="section-header">MACHINE FACILITIES</h2>
+            
+            <div class="interactive-list">
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">CNC MACHINES</span>
+                        <p class="item-desc">SPINNER 15 J (Chuck 10"), GOODWAY GLS 2000 (Chuck 8"), ASKAR MICRON SPINNER 18 (Chuck 12").</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="c1.png" class="slide-img img-1" alt="CNC 1" onerror="this.src='https://via.placeholder.com/300x180?text=c1.png'"/>
+                        <img src="c2.png" class="slide-img img-2" alt="CNC 2" onerror="this.src='https://via.placeholder.com/300x180?text=c2.png'"/>
+                        <img src="c3.png" class="slide-img img-3" alt="CNC 3" onerror="this.src='https://via.placeholder.com/300x180?text=c3.png'"/>
+                    </div>
+                </div>
 
-        <div class="interactive-list">
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">CNC MACHINES</span>
-              <p class="item-desc">
-                SPINNER 15 J (Chuck 10"), GOODWAY GLS 2000 (Chuck 8"), ASKAR
-                MICRON SPINNER 18 (Chuck 12").
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="c1.png"
-                class="slide-img img-1"
-                alt="CNC 1"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=c1.png'
-                "
-              />
-              <img
-                src="c2.png"
-                class="slide-img img-2"
-                alt="CNC 2"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=c2.png'
-                "
-              />
-              <img
-                src="c3.png"
-                class="slide-img img-3"
-                alt="CNC 3"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=c3.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">VMC MACHINES</span>
+                        <p class="item-desc">COSMOS CVM 1060 (X-1060, Y-610, Z-600), BFW BMV 45TC24++, COSMOS CVM 800.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="v1.png" class="slide-img img-1" alt="VMC 1" onerror="this.src='https://via.placeholder.com/300x180?text=v1.png'"/>
+                        <img src="v2.png" class="slide-img img-2" alt="VMC 2" onerror="this.src='https://via.placeholder.com/300x180?text=v2.png'"/>
+                        <img src="v3.png" class="slide-img img-3" alt="VMC 3" onerror="this.src='https://via.placeholder.com/300x180?text=v3.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">VMC MACHINES</span>
-              <p class="item-desc">
-                COSMOS CVM 1060 (X-1060, Y-610, Z-600), BFW BMV 45TC24++, COSMOS
-                CVM 800.
-              </p>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">HMC MACHINES</span>
+                        <p class="item-desc">BFW PRIMA 44/54/55 Pro, HYUNDAI WIA HS6308, ACE MCH 400.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="h1.png" class="slide-img img-1" alt="HMC 1" onerror="this.src='https://via.placeholder.com/300x180?text=h1.png'"/>
+                        <img src="h2.png" class="slide-img img-2" alt="HMC 2" onerror="this.src='https://via.placeholder.com/300x180?text=h2.png'"/>
+                        <img src="h3.png" class="slide-img img-3" alt="HMC 3" onerror="this.src='https://via.placeholder.com/300x180?text=h3.png'"/>
+                    </div>
+                </div>
             </div>
-            <div class="mini-slideshow">
-              <img
-                src="v1.png"
-                class="slide-img img-1"
-                alt="VMC 1"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=v1.png'
-                "
-              />
-              <img
-                src="v2.png"
-                class="slide-img img-2"
-                alt="VMC 2"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=v2.png'
-                "
-              />
-              <img
-                src="v3.png"
-                class="slide-img img-3"
-                alt="VMC 3"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=v3.png'
-                "
-              />
-            </div>
-          </div>
-
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">HMC MACHINES</span>
-              <p class="item-desc">
-                BFW PRIMA 44/54/55 Pro, HYUNDAI WIA HS6308, ACE MCH 400.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="h1.png"
-                class="slide-img img-1"
-                alt="HMC 1"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=h1.png'
-                "
-              />
-              <img
-                src="h2.png"
-                class="slide-img img-2"
-                alt="HMC 2"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=h2.png'
-                "
-              />
-              <img
-                src="h3.png"
-                class="slide-img img-3"
-                alt="HMC 3"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=h3.png'
-                "
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
     </div>
+
 
     <!-- =======================================================
          VIEW 3: DEDICATED INSPECTION EQUIPMENTS "TAB"
          ======================================================= -->
     <div id="equipments-view" class="page-view">
-      <section class="dedicated-section">
-        <button
-          class="back-btn"
-          onclick="navigateTo('main-view', 'slider-section', 4)"
-        >
-          ← Back to Home
-        </button>
-        <h2 class="section-header">INSPECTION EQUIPMENTS</h2>
+        <section class="dedicated-section">
+            <button class="back-btn" onclick="navigateTo('main-view', 'slider-section', 4)">← Back to Home</button>
+            <h2 class="section-header">INSPECTION EQUIPMENTS</h2>
+            
+            <div class="interactive-list">
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">MAHR DIGIMAR 817 CLT</span>
+                        <p class="item-desc">High-precision 2D digital height measuring instrument offering micro-level measurement accuracy.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="e1.png" class="slide-img single-img" alt="Digimar 817 CLT" onerror="this.src='https://via.placeholder.com/300x180?text=e1.png'"/>
+                    </div>
+                </div>
 
-        <div class="interactive-list">
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">MAHR DIGIMAR 817 CLT</span>
-              <p class="item-desc">
-                High-precision 2D digital height measuring instrument offering
-                micro-level measurement accuracy.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="e1.png"
-                class="slide-img single-img"
-                alt="Digimar 817 CLT"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=e1.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">ACCURATE CMM SPECTRA</span>
+                        <p class="item-desc">Coordinate Measuring Machine (Range: 800 × 1000 × 600 mm) for comprehensive 3D geometric verification.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="e2.png" class="slide-img single-img" alt="CMM Spectra" onerror="this.src='https://via.placeholder.com/300x180?text=e2.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">ACCURATE CMM SPECTRA</span>
-              <p class="item-desc">
-                Coordinate Measuring Machine (Range: 800 × 1000 × 600 mm) for
-                comprehensive 3D geometric verification.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="e2.png"
-                class="slide-img single-img"
-                alt="CMM Spectra"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=e2.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">INSIZE VERNIER CALIPER</span>
+                        <p class="item-desc">Precision measuring calipers for internal, external, and step tolerance checks.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="e3.png" class="slide-img single-img" alt="Vernier Caliper" onerror="this.src='https://via.placeholder.com/300x180?text=e3.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">INSIZE VERNIER CALIPER</span>
-              <p class="item-desc">
-                Precision measuring calipers for internal, external, and step
-                tolerance checks.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="e3.png"
-                class="slide-img single-img"
-                alt="Vernier Caliper"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=e3.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">INSIZE DEPTH VERNIER CALIPER</span>
+                        <p class="item-desc">Specialized instrument engineered for critical groove and stepped hole depth verification.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="e4.png" class="slide-img single-img" alt="Depth Vernier Caliper" onerror="this.src='https://via.placeholder.com/300x180?text=e4.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">INSIZE DEPTH VERNIER CALIPER</span>
-              <p class="item-desc">
-                Specialized instrument engineered for critical groove and
-                stepped hole depth verification.
-              </p>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">BORE DIAL GAUGE</span>
+                        <p class="item-desc">Accurate internal diameter inspection instruments for measuring bore dimensions and roundness.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="e5.png" class="slide-img single-img" alt="Bore Dial Gauge" onerror="this.src='https://via.placeholder.com/300x180?text=e5.png'"/>
+                    </div>
+                </div>
             </div>
-            <div class="mini-slideshow">
-              <img
-                src="e4.png"
-                class="slide-img single-img"
-                alt="Depth Vernier Caliper"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=e4.png'
-                "
-              />
-            </div>
-          </div>
-
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">BORE DIAL GAUGE</span>
-              <p class="item-desc">
-                Accurate internal diameter inspection instruments for measuring
-                bore dimensions and roundness.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="e5.png"
-                class="slide-img single-img"
-                alt="Bore Dial Gauge"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=e5.png'
-                "
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
     </div>
+
 
     <!-- =======================================================
          VIEW 4: DEDICATED PRODUCTS "TAB" (All 9 Products)
          ======================================================= -->
     <div id="products-view" class="page-view">
-      <section class="dedicated-section">
-        <button class="back-btn" onclick="navigateTo('main-view', null, 0)">
-          ← Back to Home
-        </button>
-        <h2 class="section-header">OUR PRODUCTS</h2>
+        <section class="dedicated-section">
+            <button class="back-btn" onclick="navigateTo('main-view', null, 0)">← Back to Home</button>
+            <h2 class="section-header">OUR PRODUCTS</h2>
+            
+            <div class="interactive-list">
+                
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">CYLINDER HEAD</span>
+                        <p class="item-desc">Precision engineered cylinder head components for heavy-duty engines.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p1.png" class="slide-img single-img" alt="Cylinder Head" onerror="this.src='https://via.placeholder.com/300x180?text=p1.png'"/>
+                    </div>
+                </div>
+                
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">HOUSING</span>
+                        <p class="item-desc">High-precision machined casting housing meeting tight geometric tolerances.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p2.png" class="slide-img single-img" alt="Housing" onerror="this.src='https://via.placeholder.com/300x180?text=p2.png'"/>
+                    </div>
+                </div>
 
-        <div class="interactive-list">
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">CYLINDER HEAD</span>
-              <p class="item-desc">
-                Precision engineered cylinder head components for heavy-duty
-                engines.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p1.png"
-                class="slide-img single-img"
-                alt="Cylinder Head"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p1.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">BRAKE HOUSING</span>
+                        <p class="item-desc">Durable, heavy-duty brake housing for critical hydraulic braking systems.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p3.png" class="slide-img single-img" alt="Brake Housing" onerror="this.src='https://via.placeholder.com/300x180?text=p3.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">HOUSING</span>
-              <p class="item-desc">
-                High-precision machined casting housing meeting tight geometric
-                tolerances.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p2.png"
-                class="slide-img single-img"
-                alt="Housing"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p2.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">NORD HOUSING</span>
+                        <p class="item-desc">Specialized transmission gear and motor housing designed for industrial drives.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p4.png" class="slide-img single-img" alt="Nord Housing" onerror="this.src='https://via.placeholder.com/300x180?text=p4.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">BRAKE HOUSING</span>
-              <p class="item-desc">
-                Durable, heavy-duty brake housing for critical hydraulic braking
-                systems.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p3.png"
-                class="slide-img single-img"
-                alt="Brake Housing"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p3.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">HYDAC HOUSING</span>
+                        <p class="item-desc">Precision components manufactured for international fluid filtration systems.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p5.png" class="slide-img single-img" alt="Hydac Housing" onerror="this.src='https://via.placeholder.com/300x180?text=p5.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">NORD HOUSING</span>
-              <p class="item-desc">
-                Specialized transmission gear and motor housing designed for
-                industrial drives.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p4.png"
-                class="slide-img single-img"
-                alt="Nord Housing"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p4.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">GEAR BOX HOUSING</span>
+                        <p class="item-desc">Rugged, multi-axis machined gear casing providing optimal alignment.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p6.png" class="slide-img single-img" alt="Gear Box Housing" onerror="this.src='https://via.placeholder.com/300x180?text=p6.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">HYDAC HOUSING</span>
-              <p class="item-desc">
-                Precision components manufactured for international fluid
-                filtration systems.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p5.png"
-                class="slide-img single-img"
-                alt="Hydac Housing"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p5.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">BRAKE PISTON</span>
+                        <p class="item-desc">Finely turned pistons ensuring smooth seal engagement and pressure resistance.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p7.png" class="slide-img single-img" alt="Brake Piston" onerror="this.src='https://via.placeholder.com/300x180?text=p7.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">GEAR BOX HOUSING</span>
-              <p class="item-desc">
-                Rugged, multi-axis machined gear casing providing optimal
-                alignment.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p6.png"
-                class="slide-img single-img"
-                alt="Gear Box Housing"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p6.png'
-                "
-              />
-            </div>
-          </div>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">OIL COOLER COVER</span>
+                        <p class="item-desc">Flat face precision-machined cover ensuring perfect sealing for thermal management.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p8.png" class="slide-img single-img" alt="Oil Cooler Cover" onerror="this.src='https://via.placeholder.com/300x180?text=p8.png'"/>
+                    </div>
+                </div>
 
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">BRAKE PISTON</span>
-              <p class="item-desc">
-                Finely turned pistons ensuring smooth seal engagement and
-                pressure resistance.
-              </p>
+                <div class="interactive-item">
+                    <div class="item-text-content">
+                        <span class="interactive-name">VST HSG</span>
+                        <p class="item-desc">Custom OEM precision-machined bracket housing for specialized applications.</p>
+                    </div>
+                    <div class="mini-slideshow">
+                        <img src="p9.png" class="slide-img single-img" alt="VST HSG" onerror="this.src='https://via.placeholder.com/300x180?text=p9.png'"/>
+                    </div>
+                </div>
             </div>
-            <div class="mini-slideshow">
-              <img
-                src="p7.png"
-                class="slide-img single-img"
-                alt="Brake Piston"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p7.png'
-                "
-              />
-            </div>
-          </div>
-
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">OIL COOLER COVER</span>
-              <p class="item-desc">
-                Flat face precision-machined cover ensuring perfect sealing for
-                thermal management.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p8.png"
-                class="slide-img single-img"
-                alt="Oil Cooler Cover"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p8.png'
-                "
-              />
-            </div>
-          </div>
-
-          <div class="interactive-item">
-            <div class="item-text-content">
-              <span class="interactive-name">VST HSG</span>
-              <p class="item-desc">
-                Custom OEM precision-machined bracket housing for specialized
-                applications.
-              </p>
-            </div>
-            <div class="mini-slideshow">
-              <img
-                src="p9.png"
-                class="slide-img single-img"
-                alt="VST HSG"
-                onerror="
-                  this.src = 'https://via.placeholder.com/300x180?text=p9.png'
-                "
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
     </div>
 
     <script>
-      // --- Mobile Menu Toggle ---
-      function toggleMenu() {
-        document.getElementById("nav-menu").classList.toggle("show");
-      }
-
-      // --- View Router & Smooth Scrolling ---
-      function navigateTo(viewId, targetId, slideIndex = null) {
-        // Hide Mobile Menu on Click
-        document.getElementById("nav-menu").classList.remove("show");
-
-        document.querySelectorAll(".page-view").forEach((view) => {
-          view.classList.remove("active");
-        });
-        document.getElementById(viewId).classList.add("active");
-
-        if (slideIndex !== null && viewId === "main-view") {
-          goToSlide(slideIndex);
+        // --- Mobile Hamburger Menu Logic ---
+        function toggleMenu() {
+            document.getElementById('mobile-nav').classList.toggle('open');
         }
 
-        setTimeout(() => {
-          if (targetId) {
-            const target = document.getElementById(targetId);
-            if (target) {
-              const headerOffset = 70;
-              const elementPosition = target.getBoundingClientRect().top;
-              const offsetPosition =
-                elementPosition + window.pageYOffset - headerOffset;
-              window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        // --- View Router & Smooth Scrolling ---
+        function navigateTo(viewId, targetId, slideIndex = null) {
+            // Close mobile menu on click
+            const mobileNav = document.getElementById('mobile-nav');
+            if (mobileNav.classList.contains('open')) {
+                mobileNav.classList.remove('open');
             }
-          } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }, 30);
-      }
 
-      // --- Auto-Slider Logic ---
-      let currentSlide = 0;
-      const slides = document.querySelectorAll(".slide");
-      const dots = document.querySelectorAll(".dot");
-      let slideInterval;
-
-      function showSlide(index) {
-        slides.forEach((slide, i) => {
-          slide.classList.remove("active");
-          dots[i].classList.remove("active");
-        });
-        slides[index].classList.add("active");
-        dots[index].classList.add("active");
-        currentSlide = index;
-      }
-
-      function nextSlide() {
-        let nextIndex = (currentSlide + 1) % slides.length;
-        showSlide(nextIndex);
-      }
-
-      function goToSlide(index) {
-        showSlide(index);
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 5000);
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        // Theme Toggle
-        const themeToggle = document.getElementById("theme-toggle");
-        themeToggle.addEventListener("click", () => {
-          document.body.classList.toggle("dark-mode");
-        });
-
-        // Trigger Scatter Animation
-        const introSection = document.getElementById("intro-section");
-        setTimeout(() => {
-          introSection.classList.add("scattered");
-        }, 800);
-
-        // Flawless bidirectional scroll trigger based on physical scroll height
-        let ticking = false;
-        window.addEventListener(
-          "scroll",
-          () => {
-            if (!ticking) {
-              window.requestAnimationFrame(() => {
-                if (window.scrollY > 20) {
-                  document.body.classList.add("scrolled");
-                } else {
-                  document.body.classList.remove("scrolled");
-                }
-                ticking = false;
-              });
-              ticking = true;
-            }
-          },
-          { passive: true },
-        );
-
-        // Start Slider
-        slideInterval = setInterval(nextSlide, 5000);
-
-        // Interactive Items Tap Handling
-        const interactiveItems = document.querySelectorAll(".interactive-item");
-        interactiveItems.forEach((item) => {
-          item.addEventListener("click", () => {
-            const parent = item.parentElement;
-            const siblings = parent.querySelectorAll(".interactive-item");
-            siblings.forEach((f) => {
-              if (f !== item) f.classList.remove("active");
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
             });
-            item.classList.toggle("active");
-          });
+            document.getElementById(viewId).classList.add('active');
+            
+            if (slideIndex !== null && viewId === 'main-view') {
+                goToSlide(slideIndex);
+            }
+            
+            setTimeout(() => {
+                if (targetId) {
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        const headerOffset = 70;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                } else {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+            }, 30);
+        }
+
+        // --- Auto-Slider Logic ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+            });
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000); 
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Theme Toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+            });
+
+            // Trigger Scatter Animation
+            const introSection = document.getElementById("intro-section");
+            setTimeout(() => {
+                introSection.classList.add("scattered");
+            }, 800);
+
+            // Flawless bidirectional scroll trigger based on physical scroll height
+            let ticking = false;
+            window.addEventListener("scroll", () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        if (window.scrollY > 20) {
+                            document.body.classList.add("scrolled");
+                        } else {
+                            document.body.classList.remove("scrolled");
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // Start Slider
+            slideInterval = setInterval(nextSlide, 5000);
+
+            // Interactive Items Tap Handling
+            const interactiveItems = document.querySelectorAll('.interactive-item');
+            interactiveItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const parent = item.parentElement;
+                    const siblings = parent.querySelectorAll('.interactive-item');
+                    siblings.forEach(f => { if(f !== item) f.classList.remove('active') });
+                    item.classList.toggle('active');
+                });
+            });
         });
-      });
     </script>
-  </body>
+</body>
 </html>
