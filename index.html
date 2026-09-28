@@ -112,13 +112,15 @@
         height: 70px;
       }
 
-      .mobile-header-left {
+      .header-inner {
         display: flex;
         align-items: center;
         gap: 10px;
+        cursor: pointer;
         z-index: 9001;
         flex-shrink: 0;
       }
+
       .menu-icon {
         display: none;
       } /* Hidden on desktop */
@@ -127,7 +129,6 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        cursor: pointer;
       }
       .logo-container img {
         height: 35px;
@@ -137,7 +138,7 @@
       .logo-container span {
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 2vw, 1.1rem);
         letter-spacing: 0.5px;
         color: #d50000;
         white-space: nowrap;
@@ -266,8 +267,8 @@
         z-index: 2;
       }
       .img-wrapper {
-        width: clamp(150px, 15vw, 200px);
-        height: clamp(150px, 15vw, 200px);
+        width: clamp(100px, 15vw, 200px);
+        height: clamp(100px, 15vw, 200px);
         background: transparent;
         display: flex;
         justify-content: center;
@@ -325,12 +326,12 @@
         stroke: url(#glossyRed);
       }
       .main-text-svg {
-        font-size: clamp(60px, 8vw, 100px);
+        font-size: clamp(40px, 8vw, 100px);
         stroke-width: 1px;
         letter-spacing: 3px;
       }
       .sub-text-svg {
-        font-size: clamp(18px, 3vw, 24px);
+        font-size: clamp(14px, 3vw, 24px);
         stroke-width: 0.5px;
         letter-spacing: 4px;
       }
@@ -385,7 +386,7 @@
 
       .slide h2 {
         font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(4rem, 8vw, 5rem);
+        font-size: clamp(3.5rem, 8vw, 5rem);
         color: #d50000;
         letter-spacing: 2px;
         margin-bottom: 20px;
@@ -405,7 +406,7 @@
         max-width: 900px;
         margin: 12px auto;
         font-family: "Inter", sans-serif;
-        font-size: clamp(1.1rem, 2vw, 1.15rem);
+        font-size: clamp(1.05rem, 2vw, 1.15rem);
         line-height: 1.7;
         color: var(--text-color);
         list-style: none;
@@ -511,7 +512,7 @@
       }
       .item-desc {
         font-family: "Inter", sans-serif;
-        font-size: clamp(1rem, 2vw, 1.1rem);
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
         color: #888;
         line-height: 1.5;
         max-width: 650px;
@@ -614,7 +615,7 @@
         text-align: center;
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: clamp(1.4rem, 4vw, 1.8rem);
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
         color: var(--text-color);
         letter-spacing: 1.5px;
         margin-bottom: 25px;
@@ -636,8 +637,8 @@
         align-items: center;
       }
       .marquee-content img {
-        height: clamp(40px, 6vw, 50px);
-        margin: 0 clamp(25px, 4vw, 45px);
+        height: clamp(35px, 6vw, 50px);
+        margin: 0 clamp(20px, 4vw, 45px);
         object-fit: contain;
         filter: grayscale(100%) contrast(1.2);
         opacity: 0.65;
@@ -711,24 +712,29 @@
       }
 
       /* =========================================
-           MOBILE UX PERFECTION (Phones & Tablets)
+           PERFECT MOBILE UX (PHONES & TABLETS)
            ========================================= */
       @media (max-width: 950px) {
-        /* 1. Header Logic: LHS Menu Icon, Logo next to it, NOTHING ELSE */
+        /* 1. Header: Strictly ☰ on LHS, Logo next to it. No links visible. */
         header {
-          padding: 0 5vw;
+          display: block; /* Removes flex conflicts */
+          padding: 0;
           height: 70px;
+          overflow: visible;
+        }
+
+        .header-inner {
           display: flex;
           align-items: center;
-          justify-content: flex-start;
-          overflow: visible; /* Prevents scrollbar */
-        }
-        .mobile-header-left {
           width: 100%;
-          display: flex;
-          align-items: center;
-          gap: 20px;
+          height: 70px;
+          padding: 0 5vw;
+          background-color: var(--nav-bg);
+          gap: 15px;
+          z-index: 9005;
+          position: relative;
         }
+
         .menu-icon {
           display: block;
           font-size: 32px;
@@ -736,7 +742,9 @@
           cursor: pointer;
           user-select: none;
           flex-shrink: 0;
+          line-height: 1;
         }
+
         .logo-container {
           flex-grow: 1;
           display: flex;
@@ -746,9 +754,9 @@
         .logo-container span {
           font-size: 1.25rem;
           font-weight: 900;
-        } /* Text size boosted */
+        }
 
-        /* 2. Slide Down Mobile Menu */
+        /* 2. Slide Down Mobile Drawer (Zero overlap) */
         nav#navbar {
           position: absolute;
           top: 70px;
@@ -757,10 +765,11 @@
           background-color: var(--nav-bg);
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.4s ease-in-out;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+          transition: max-height 0.35s ease-in-out;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
           border-top: 1px solid var(--border-color);
-          z-index: 9001;
+          z-index: 9004;
+          display: block; /* Overrides desktop flex */
         }
         nav#navbar.open {
           max-height: 85vh;
@@ -768,16 +777,17 @@
         }
 
         nav#navbar ul.nav-links {
+          display: flex;
           flex-direction: column;
           width: 100%;
           padding: 0;
           margin: 0;
-          align-items: flex-start;
         }
         nav#navbar ul.nav-links li {
           width: 100%;
           border-bottom: 1px solid var(--border-color);
           height: auto;
+          display: flex;
           flex-direction: column;
           align-items: flex-start;
         }
@@ -786,24 +796,26 @@
         }
 
         nav#navbar ul.nav-links li a {
-          padding: 18px 5vw;
-          font-size: 1.25rem; /* Text size boosted */
+          padding: 18px 6vw;
+          font-size: 1.2rem; /* Big, readable text */
           width: 100%;
           display: block;
           text-align: left;
           white-space: normal;
         }
 
-        /* Dropdowns become static inline lists on mobile */
+        /* Indented Sub-Menus inside the drawer */
         .dropdown-menu {
-          position: static;
+          position: relative;
+          top: 0;
+          left: 0;
           transform: none;
           box-shadow: none;
           border: none;
           display: flex;
           opacity: 1;
           visibility: visible;
-          background-color: var(--hover-bg);
+          background-color: transparent;
           width: 100%;
           padding: 0;
           min-width: auto;
@@ -815,9 +827,10 @@
           border-bottom: none;
         }
         .dropdown-menu li a {
-          padding: 16px 10vw; /* Indented further right */
-          font-size: 1.1rem; /* Text size boosted */
+          padding: 14px 12vw; /* Indented deeper */
+          font-size: 1.05rem;
           color: var(--text-color);
+          opacity: 0.85;
         }
 
         /* 3. Intro Mobile Adjustments */
@@ -830,7 +843,7 @@
           height: 110px;
         }
         .scattered .img-1 {
-          transform: translate3d(0, -16vh, 0) scale(0.9);
+          transform: translate3d(0, -18vh, 0) scale(0.9);
         }
         .scattered .img-2 {
           transform: translate3d(-20vw, 15vh, 0) scale(0.9);
@@ -839,15 +852,16 @@
           transform: translate3d(20vw, 15vh, 0) scale(0.9);
         }
         .main-text-svg {
-          font-size: 75px;
-        } /* Text size boosted */
+          font-size: 65px;
+        }
 
-        /* 4. Removing Gaps on Sliders (Relative positioning fixes height issues) */
+        /* 4. Fix Gaps/Spaces by removing forced heights on mobile */
         #slider-section {
           min-height: auto;
           height: auto;
-          padding: 80px 0 40px 0; /* Tightened padding gaps */
+          padding: 100px 5vw 60px 5vw; /* Tightened perfectly */
         }
+        /* Slides become naturally stacked to fix blank spaces */
         .slide {
           position: absolute;
           opacity: 0;
@@ -857,27 +871,26 @@
           display: none;
         }
         .slide.active {
-          position: relative; /* Restores natural document height on mobile */
+          position: relative; /* Container automatically hugs active content */
           opacity: 1;
           visibility: visible;
           display: flex;
-          padding: 0 6vw; /* Tightened padding */
         }
 
-        /* Enhanced Text Sizing for Mobile */
+        /* Enhanced Text Sizing for Mobile readability */
         .slide h2 {
-          font-size: 4rem;
+          font-size: 3.8rem;
           margin-bottom: 15px;
-        } /* Text size boosted */
+        }
         .slide p {
-          font-size: 1.25rem;
+          font-size: 1.15rem;
           margin-bottom: 15px;
           line-height: 1.5;
-        } /* Text size boosted */
+        }
         .slide ul {
-          font-size: 1.15rem;
+          font-size: 1.1rem;
           line-height: 1.5;
-        } /* Text size boosted */
+        }
         .dots-container {
           position: relative;
           bottom: 0;
@@ -886,32 +899,32 @@
 
         /* 5. Tighten Dedicated Sections */
         .dedicated-section {
-          padding: 90px 5vw 40px 5vw;
+          padding: 100px 5vw 60px 5vw;
           min-height: auto;
-        } /* Tightened padding gaps */
+        }
         .section-header {
-          font-size: 4.2rem;
+          font-size: 3.8rem;
           margin-bottom: 25px;
-        } /* Text size boosted */
+        }
 
         .interactive-list {
-          gap: 25px;
-        } /* Tightened gaps */
+          gap: 30px;
+        }
         .interactive-item {
           gap: 12px;
           flex-direction: column;
           align-items: flex-start;
         }
         .interactive-name {
-          font-size: 4.2rem;
-        } /* Text size boosted */
+          font-size: 3.8rem;
+        }
         .item-desc {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           line-height: 1.4;
-        } /* Text size boosted */
+        }
         .mini-slideshow {
           width: 100%;
-          height: 240px;
+          height: 220px;
           transform-origin: top left;
           margin-top: 5px;
         }
@@ -920,11 +933,11 @@
           font-size: 1.6rem;
         }
         .marquee-section {
-          padding: 25px 0;
+          padding: 30px 0;
         }
         footer {
-          padding: 50px 6vw;
-          gap: 25px;
+          padding: 60px 6vw;
+          gap: 35px;
         }
       }
     </style>
@@ -933,11 +946,13 @@
     <!-- Theme Toggle -->
     <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
 
-    <!-- App-Like Header -->
+    <!-- PERFECTED MOBILE HEADER (☰, Logo, Name Only) -->
     <header id="main-header">
-      <!-- Strictly ☰, Logo, and Company Name on Mobile LHS -->
-      <div class="mobile-header-left">
+      <div class="header-inner">
+        <!-- 1. Hamburger on LHS -->
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+        <!-- 2. Logo & Name -->
         <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
           <img
             src="1.png"
@@ -948,7 +963,7 @@
         </div>
       </div>
 
-      <!-- Desktop Nav Links / Mobile Slide-Down Menu -->
+      <!-- 3. Desktop Nav Links OR Slide-Down Mobile Drawer -->
       <nav id="navbar">
         <ul class="nav-links">
           <li>
@@ -1214,7 +1229,7 @@
         </div>
       </section>
 
-      <!-- Marquees -->
+      <!-- 1. Associated Foundries Marquee -->
       <section class="marquee-section">
         <h3 class="marquee-title">Associated Foundries</h3>
         <div class="marquee-wrapper">
@@ -1265,6 +1280,7 @@
         </div>
       </section>
 
+      <!-- 2. Our Customers Marquee -->
       <section class="marquee-section" style="padding-top: 0">
         <h3 class="marquee-title">Our Customers</h3>
         <div class="marquee-wrapper">
@@ -1592,7 +1608,7 @@
     </div>
 
     <!-- =======================================================
-         VIEW 4: DEDICATED PRODUCTS "TAB" (All 9 Products)
+         VIEW 4: DEDICATED PRODUCTS "TAB"
          ======================================================= -->
     <div id="products-view" class="page-view">
       <section class="dedicated-section">
@@ -1793,8 +1809,9 @@
 
       // --- View Router & Smooth Scrolling ---
       function navigateTo(viewId, targetId, slideIndex = null) {
+        // Close mobile menu on click safely
         const mobileNav = document.getElementById("navbar");
-        if (mobileNav.classList.contains("open")) {
+        if (mobileNav && mobileNav.classList.contains("open")) {
           mobileNav.classList.remove("open");
         }
 
@@ -1851,16 +1868,19 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        // Theme Toggle
         const themeToggle = document.getElementById("theme-toggle");
         themeToggle.addEventListener("click", () => {
           document.body.classList.toggle("dark-mode");
         });
 
+        // Trigger Scatter Animation
         const introSection = document.getElementById("intro-section");
         setTimeout(() => {
           introSection.classList.add("scattered");
         }, 800);
 
+        // Flawless bidirectional scroll trigger
         let ticking = false;
         window.addEventListener(
           "scroll",
@@ -1880,8 +1900,10 @@
           { passive: true },
         );
 
+        // Start Slider
         slideInterval = setInterval(nextSlide, 5000);
 
+        // Interactive Items Tap Handling
         const interactiveItems = document.querySelectorAll(".interactive-item");
         interactiveItems.forEach((item) => {
           item.addEventListener("click", () => {
