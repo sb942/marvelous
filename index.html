@@ -77,9 +77,12 @@
             height: 70px;
         }
         
+        .mobile-header-left {
+            display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 9001; flex-shrink: 0;
+        }
         .menu-icon { display: none; } /* Hidden on desktop */
 
-        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; z-index: 9001; flex-shrink: 0; }
+        .logo-container { display: flex; align-items: center; gap: 10px; }
         .logo-container img { height: 35px; width: auto; object-fit: contain; }
         .logo-container span {
             font-family: 'Montserrat', sans-serif; font-weight: 900;
@@ -194,17 +197,17 @@
 
         .slide h2 {
             font-family: 'Bebas Neue', sans-serif; 
-            font-size: clamp(3rem, 8vw, 5rem); 
+            font-size: clamp(3.5rem, 8vw, 5rem); 
             color: #d50000; letter-spacing: 2px; margin-bottom: 20px; line-height: 1;
         }
         .slide p {
-            font-family: 'Inter', sans-serif; font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-family: 'Inter', sans-serif; font-size: clamp(1.15rem, 2.5vw, 1.3rem);
             line-height: 1.6; max-width: 1000px; font-weight: 500; margin-bottom: 12px;
             color: var(--text-color);
         }
         .slide ul {
             text-align: left; max-width: 900px; margin: 12px auto; 
-            font-family: 'Inter', sans-serif; font-size: clamp(0.95rem, 2vw, 1.15rem); 
+            font-family: 'Inter', sans-serif; font-size: clamp(1.05rem, 2vw, 1.15rem); 
             line-height: 1.7; color: var(--text-color); list-style: none;
         }
         .slide li { margin-bottom: 8px; }
@@ -235,7 +238,7 @@
             padding: 120px 8vw 80px 8vw; min-height: 100vh;
         }
         .section-header {
-            font-family: "Bebas Neue", sans-serif; font-size: clamp(3.5rem, 8vw, 4.5rem);
+            font-family: "Bebas Neue", sans-serif; font-size: clamp(4rem, 8vw, 4.5rem);
             color: #d50000; margin-bottom: 30px; letter-spacing: 2px; line-height: 1.1;
         }
         .interactive-list {
@@ -249,13 +252,13 @@
         .item-text-content { display: flex; flex-direction: column; gap: 8px; flex: 1; }
         .interactive-name {
             font-family: "Bebas Neue", sans-serif; 
-            font-size: clamp(2.5rem, 6vw, 5rem); 
+            font-size: clamp(3rem, 6vw, 5rem); 
             color: #b3b3b3; transition: color 0.2s ease, transform 0.2s ease;
             line-height: 1.1; letter-spacing: 1px; transform-origin: left center; 
             word-wrap: break-word; white-space: normal;
         }
         .item-desc {
-            font-family: 'Inter', sans-serif; font-size: clamp(0.9rem, 2vw, 1rem); 
+            font-family: 'Inter', sans-serif; font-size: clamp(1rem, 2vw, 1.1rem); 
             color: #888; line-height: 1.5; max-width: 650px;
         }
         .interactive-item:hover .interactive-name, .interactive-item.active .interactive-name {
@@ -289,7 +292,7 @@
         .marquee-section { padding: 40px 0; background-color: var(--bg-color); overflow: hidden; }
         .marquee-title {
             text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 900;
-            font-size: clamp(1.2rem, 4vw, 1.8rem); color: var(--text-color); letter-spacing: 1.5px;
+            font-size: clamp(1.4rem, 4vw, 1.8rem); color: var(--text-color); letter-spacing: 1.5px;
             margin-bottom: 25px; text-transform: uppercase;
         }
         .marquee-wrapper {
@@ -299,7 +302,7 @@
         }
         .marquee-content { display: flex; width: max-content; animation: scrollMarquee 20s linear infinite; align-items: center; }
         .marquee-content img {
-            height: clamp(35px, 6vw, 50px); margin: 0 clamp(20px, 4vw, 45px); object-fit: contain;
+            height: clamp(40px, 6vw, 50px); margin: 0 clamp(25px, 4vw, 45px); object-fit: contain;
             filter: grayscale(100%) contrast(1.2); opacity: 0.65; transition: all 0.2s ease;
         }
         .marquee-content img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.08); }
@@ -323,28 +326,44 @@
         .footer-col a:hover { color: #d50000; }
 
         /* =========================================
-           MOBILE UX PERFECTION 
+           MOBILE UX PERFECTION (Phones & Tablets)
            ========================================= */
         @media (max-width: 950px) {
             
-            /* 1. Header Logic: LHS Menu Icon, Logo next to it, Nothing else */
+            /* 1. True App-Like Header */
             header { 
-                justify-content: flex-start; 
-                padding: 0 5vw; 
-                gap: 15px; 
-                height: 70px; 
+                padding: 0;
+                height: 70px;
+                display: flex;
+                flex-direction: column; /* Allows absolute dropdown positioning relative to header */
+                align-items: flex-start;
+                justify-content: flex-start;
             }
+            
+            .mobile-header-left {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 70px;
+                padding: 0 5vw;
+                background-color: var(--nav-bg);
+                gap: 15px;
+                z-index: 9002;
+            }
+
             .menu-icon { 
                 display: block; 
-                font-size: 32px; 
+                font-size: 28px; 
                 color: var(--text-color); 
                 cursor: pointer; 
                 user-select: none;
             }
-            .logo-container { flex-grow: 1; }
-            .logo-container span { font-size: 1.15rem; } /* Bolder and bigger on mobile */
             
-            /* 2. Slide Down Mobile Menu */
+            .logo-container { flex-grow: 1; gap: 10px; }
+            .logo-container img { height: 30px; }
+            .logo-container span { font-size: 1.1rem; } 
+            
+            /* 2. Sleek Slide-Down Mobile Menu */
             nav#navbar { 
                 position: absolute; 
                 top: 70px; 
@@ -353,53 +372,55 @@
                 background-color: var(--nav-bg);
                 max-height: 0; 
                 overflow: hidden; 
-                transition: max-height 0.4s ease; 
+                transition: max-height 0.4s ease-in-out; 
                 box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-                align-items: flex-start;
                 border-top: 1px solid var(--border-color);
+                z-index: 9001;
             }
             nav#navbar.open { 
-                max-height: 80vh; 
+                max-height: 85vh; 
                 overflow-y: auto; 
             }
             
             nav#navbar ul.nav-links { 
                 flex-direction: column; 
                 width: 100%; 
-                padding: 10px 0; 
-                gap: 0; 
+                padding: 0; 
+                margin: 0;
                 align-items: flex-start;
             }
-            nav#navbar ul li { 
+            nav#navbar ul.nav-links li { 
                 width: 100%; 
                 border-bottom: 1px solid var(--border-color); 
                 height: auto;
                 flex-direction: column;
                 align-items: flex-start;
             }
-            nav#navbar ul li:last-child { border-bottom: none; }
+            nav#navbar ul.nav-links li:last-child { border-bottom: none; }
             
-            nav#navbar ul li a { 
-                padding: 18px 6vw; 
-                font-size: 1.1rem; /* Highly readable font size */
+            nav#navbar ul.nav-links li a { 
+                padding: 16px 5vw; 
+                font-size: 1.15rem; /* Highly readable */
                 width: 100%;
                 display: block;
                 text-align: left;
                 white-space: normal;
             }
 
-            /* Dropdowns become static inline lists on mobile */
+            /* Indented Sub-Menus on Mobile */
             .dropdown-menu { 
                 position: static; transform: none; box-shadow: none; border: none; 
                 display: flex; opacity: 1; visibility: visible; 
                 background-color: var(--hover-bg); 
                 width: 100%; padding: 0; min-width: auto;
             }
-            .dropdown-menu li { border-bottom: none; }
+            .dropdown-menu li { border-bottom: 1px solid rgba(0,0,0,0.03); }
+            .dropdown-menu li:last-child { border-bottom: none; }
             .dropdown-menu li a { 
-                padding: 14px 10vw; 
-                font-size: 0.95rem; 
+                padding: 14px 10vw; /* Indented further right */
+                font-size: 1rem; 
                 color: var(--text-color); 
+                opacity: 0.85;
             }
 
             /* 3. Intro Mobile Adjustments */
@@ -410,24 +431,26 @@
             .scattered .img-3 { transform: translate3d(20vw, 15vh, 0) scale(0.9); }
             .main-text-svg { font-size: 65px; }
             
-            /* 4. Removing Gaps on Sliders (Relative positioning fixes height issues) */
+            /* 4. Removing Gaps on Sliders */
             #slider-section { 
-                height: auto; 
                 min-height: auto; 
-                padding: 90px 5vw 40px 5vw; 
+                height: auto; 
+                padding: 90px 0 60px 0; 
             }
+            /* Slide becomes relative on mobile so parent container perfectly hugs the content */
             .slide { 
                 position: absolute; 
                 opacity: 0; visibility: hidden; 
-                padding: 0; transform: none; 
+                padding: 0; transform: none; display: none; 
             }
             .slide.active { 
-                position: relative; /* Restores natural document height on mobile */
+                position: relative; 
                 opacity: 1; visibility: visible; display: flex; 
+                padding: 20px 6vw; 
             }
             
-            /* Enhanced Text Sizing for Mobile */
-            .slide h2 { font-size: 3.5rem; margin-bottom: 15px; }
+            /* Enhanced Text Sizing */
+            .slide h2 { font-size: 3.8rem; margin-bottom: 15px; }
             .slide p { font-size: 1.15rem; margin-bottom: 15px; }
             .slide ul { font-size: 1.05rem; }
             .dots-container { position: relative; bottom: 0; margin-top: 25px; }
@@ -441,8 +464,7 @@
             .item-desc { font-size: 1.1rem; }
             .mini-slideshow { width: 100%; height: 220px; transform-origin: top left; margin-top: 5px; }
             
-            .marquee-title { font-size: 1.6rem; }
-            footer { padding: 60px 5vw; gap: 30px; }
+            footer { padding: 60px 6vw; gap: 35px; }
         }
     </style>
 </head>
@@ -451,18 +473,16 @@
     <!-- Theme Toggle -->
     <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
 
-    <!-- Header / Navigation -->
+    <!-- App-Like Header -->
     <header id="main-header">
-        <!-- 1. Hamburger Icon on LHS -->
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        
-        <!-- 2. Logo & Name next to it -->
-        <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
-            <img src="1.png" alt="Company Logo" onerror="this.style.display='none'">
-            <span class="logo-text">MARVELOUS PRECISION</span>
+        <div class="mobile-header-left">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
+                <img src="1.png" alt="Company Logo" onerror="this.style.display='none'">
+                <span class="logo-text">MARVELOUS PRECISION</span>
+            </div>
         </div>
 
-        <!-- 3. Navigation Links (Hidden under Hamburger on Mobile) -->
         <nav id="navbar">
             <ul class="nav-links">
                 <li><a onclick="navigateTo('main-view', 'slider-section', 0)">About Us</a></li>
@@ -497,7 +517,6 @@
          ======================================================= -->
     <div id="main-view" class="page-view active">
         
-        <!-- Physical First Slide -->
         <section id="intro-section">
             <div class="image-container" id="img-container">
                 <div class="img-wrapper img-1"><img src="1.png" alt="Image 1"></div>
@@ -519,7 +538,7 @@
             </div>
         </section>
 
-        <!-- Dynamic Full Page Slider -->
+        <!-- Dynamic Auto-Slider -->
         <section id="slider-section">
             <div class="slide active">
                 <h2>About Us</h2>
@@ -595,7 +614,7 @@
             </div>
         </section>
 
-        <!-- 1. Associated Foundries Marquee -->
+        <!-- Marquees -->
         <section class="marquee-section">
             <h3 class="marquee-title">Associated Foundries</h3>
             <div class="marquee-wrapper">
@@ -610,7 +629,6 @@
             </div>
         </section>
 
-        <!-- 2. Our Customers Marquee -->
         <section class="marquee-section" style="padding-top: 0;">
             <h3 class="marquee-title">Our Customers</h3>
             <div class="marquee-wrapper">
@@ -770,7 +788,7 @@
 
 
     <!-- =======================================================
-         VIEW 4: DEDICATED PRODUCTS "TAB" (All 9 Products)
+         VIEW 4: DEDICATED PRODUCTS "TAB"
          ======================================================= -->
     <div id="products-view" class="page-view">
         <section class="dedicated-section">
@@ -880,7 +898,6 @@
 
         // --- View Router & Smooth Scrolling ---
         function navigateTo(viewId, targetId, slideIndex = null) {
-            // Close mobile menu on click
             const mobileNav = document.getElementById('navbar');
             if (mobileNav.classList.contains('open')) {
                 mobileNav.classList.remove('open');
@@ -938,19 +955,16 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Theme Toggle
             const themeToggle = document.getElementById('theme-toggle');
             themeToggle.addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
             });
 
-            // Trigger Scatter Animation
             const introSection = document.getElementById("intro-section");
             setTimeout(() => {
                 introSection.classList.add("scattered");
             }, 800);
 
-            // Flawless bidirectional scroll trigger based on physical scroll height
             let ticking = false;
             window.addEventListener("scroll", () => {
                 if (!ticking) {
@@ -966,10 +980,8 @@
                 }
             }, { passive: true });
 
-            // Start Slider
             slideInterval = setInterval(nextSlide, 5000);
 
-            // Interactive Items Tap Handling
             const interactiveItems = document.querySelectorAll('.interactive-item');
             interactiveItems.forEach(item => {
                 item.addEventListener('click', () => {
