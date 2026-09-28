@@ -94,7 +94,7 @@
       }
 
       /* =========================================
-           NAVIGATION BAR (STRICT SINGLE LINE)
+           NAVIGATION BAR
            ========================================= */
       header {
         position: fixed;
@@ -108,7 +108,7 @@
         padding: 10px 2vw;
         z-index: 9000;
         transition: background-color 0.3s ease;
-        height: 60px;
+        height: 65px;
       }
       .logo-container {
         display: flex;
@@ -116,19 +116,28 @@
         gap: 10px;
         cursor: pointer;
         flex-shrink: 0;
+        z-index: 9001;
       }
       .logo-container img {
-        height: 32px;
+        height: 35px;
         width: auto;
         object-fit: contain;
       }
       .logo-container span {
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: 0.9rem;
+        font-size: clamp(0.9rem, 2vw, 1rem);
         letter-spacing: 0.5px;
         color: #d50000;
         white-space: nowrap;
+      }
+
+      .menu-icon {
+        display: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: var(--text-color);
+        z-index: 9001;
       }
 
       nav {
@@ -136,15 +145,14 @@
         display: flex;
         justify-content: flex-end;
       }
-
-      /* Force single line, no wrapping */
       nav ul {
         list-style: none;
         display: flex;
-        gap: 1.2vw;
+        gap: 1.5vw;
         align-items: center;
         flex-wrap: nowrap;
         white-space: nowrap;
+        transition: all 0.3s ease;
       }
       nav ul li {
         position: relative;
@@ -154,7 +162,7 @@
         color: var(--text-color);
         font-family: "Inter", sans-serif;
         font-weight: 700;
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         transition: color 0.2s ease;
         padding: 20px 0;
         cursor: pointer;
@@ -226,29 +234,18 @@
       }
 
       /* =========================================
-           SOLID CURTAIN INTRO (Zero Overlap / Zero Lag)
+           PHYSICAL FIRST SLIDE (Zero Overlap & Lag)
            ========================================= */
       #intro-section {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
+        position: relative;
+        width: 100%;
         height: 100vh;
-        /* Background MUST stay solid to block the slider behind it */
         background-color: var(--bg-color);
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 9999;
-        will-change: transform;
-        /* Snappy 0.5s curtain slide */
-        transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-      }
-
-      /* Scrolled state: The entire solid box slides straight up */
-      body.scrolled #intro-section {
-        transform: translateY(-100%);
-        pointer-events: none;
+        overflow: hidden;
+        z-index: 20;
       }
 
       .image-container {
@@ -265,8 +262,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        will-change: transform;
-        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, opacity;
+        transition:
+          transform 1s cubic-bezier(0.25, 1, 0.5, 1),
+          opacity 0.6s ease;
       }
       .img-wrapper img {
         width: 100%;
@@ -303,16 +302,6 @@
         transform: translate3d(0, 0, 0) scale(1);
       }
 
-      /* Zoom-out effect running INSIDE the sliding curtain */
-      body.scrolled .img-wrapper,
-      body.scrolled .text-wrapper {
-        transform: scale(0.3) translateY(50vh) !important;
-        opacity: 0;
-        transition:
-          transform 0.4s ease,
-          opacity 0.3s ease;
-      }
-
       .title-svg {
         width: 100%;
         height: auto;
@@ -325,15 +314,22 @@
         fill: url(#glossyRed);
         stroke: url(#glossyRed);
       }
+      /* Fluid SVG Typography */
       .main-text-svg {
-        font-size: 100px;
+        font-size: clamp(40px, 8vw, 100px);
         stroke-width: 1px;
         letter-spacing: 3px;
       }
       .sub-text-svg {
-        font-size: 24px;
+        font-size: clamp(14px, 3vw, 24px);
         stroke-width: 0.5px;
         letter-spacing: 4px;
+      }
+
+      body.scrolled #intro-section .img-wrapper,
+      body.scrolled #intro-section .text-wrapper {
+        transform: scale(0.6) translate3d(0, -15vh, 0) !important;
+        opacity: 0 !important;
       }
 
       /* =========================================
@@ -342,12 +338,13 @@
       #slider-section {
         position: relative;
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        padding-top: 60px;
+        padding-top: 65px;
+        background-color: var(--bg-color);
       }
       .slide {
         position: absolute;
@@ -365,6 +362,7 @@
         transform: translateY(20px);
         transition: all 0.4s ease-out;
         pointer-events: none;
+        overflow-y: auto; /* Allows scrolling if content is tall */
       }
       .slide.active {
         opacity: 1;
@@ -375,7 +373,7 @@
 
       .slide h2 {
         font-family: "Bebas Neue", sans-serif;
-        font-size: 5rem;
+        font-size: clamp(3rem, 8vw, 5rem); /* Fluid sizing */
         color: #d50000;
         letter-spacing: 2px;
         margin-bottom: 20px;
@@ -383,7 +381,7 @@
       }
       .slide p {
         font-family: "Inter", sans-serif;
-        font-size: 1.3rem;
+        font-size: clamp(1rem, 2.5vw, 1.3rem); /* Fluid sizing */
         line-height: 1.6;
         max-width: 1000px;
         font-weight: 500;
@@ -395,7 +393,7 @@
         max-width: 900px;
         margin: 12px auto;
         font-family: "Inter", sans-serif;
-        font-size: 1.15rem;
+        font-size: clamp(0.95rem, 2vw, 1.15rem);
         line-height: 1.7;
         color: var(--text-color);
         list-style: none;
@@ -453,12 +451,12 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        padding: 100px 8vw 80px 8vw;
+        padding: 120px 8vw 80px 8vw;
         min-height: 100vh;
       }
       .section-header {
         font-family: "Bebas Neue", sans-serif;
-        font-size: 4.5rem;
+        font-size: clamp(3.5rem, 8vw, 4.5rem);
         color: #d50000;
         margin-bottom: 30px;
         letter-spacing: 2px;
@@ -479,27 +477,29 @@
         cursor: pointer;
         width: 100%;
       }
-
       .item-text-content {
         display: flex;
         flex-direction: column;
         gap: 8px;
         flex: 1;
       }
+
       .interactive-name {
         font-family: "Bebas Neue", sans-serif;
-        font-size: 5rem;
+        font-size: clamp(2.5rem, 6vw, 5rem); /* Prevents overflow */
         color: #b3b3b3;
         transition:
           color 0.2s ease,
           transform 0.2s ease;
-        line-height: 1;
+        line-height: 1.1;
         letter-spacing: 1px;
         transform-origin: left center;
+        word-wrap: break-word;
+        white-space: normal;
       }
       .item-desc {
         font-family: "Inter", sans-serif;
-        font-size: 1rem;
+        font-size: clamp(0.9rem, 2vw, 1rem);
         color: #888;
         line-height: 1.5;
         max-width: 650px;
@@ -602,7 +602,7 @@
         text-align: center;
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: 1.8rem;
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
         color: var(--text-color);
         letter-spacing: 1.5px;
         margin-bottom: 25px;
@@ -624,8 +624,8 @@
         align-items: center;
       }
       .marquee-content img {
-        height: 50px;
-        margin: 0 45px;
+        height: clamp(35px, 6vw, 50px);
+        margin: 0 clamp(20px, 4vw, 45px);
         object-fit: contain;
         filter: grayscale(100%) contrast(1.2);
         opacity: 0.65;
@@ -699,50 +699,73 @@
       }
 
       /* =========================================
-           MOBILE VIEW
+           MOBILE UX PERFECTION
            ========================================= */
       @media (max-width: 950px) {
         header {
           padding: 10px 15px;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
         }
-        .logo-container img {
-          height: 28px;
+        .menu-icon {
+          display: block;
         }
-        .logo-container span {
-          font-size: 0.85rem;
+
+        nav {
+          width: 100%;
+          position: absolute;
+          top: 65px;
+          left: 0;
         }
         nav ul {
-          gap: 15px;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          background: var(--nav-bg);
+          padding: 0;
+          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+          max-height: 0;
+          overflow: hidden;
+          white-space: normal;
+          border-top: 1px solid var(--border-color);
+        }
+        nav ul.show {
+          max-height: 500px;
+          padding: 10px 0;
+        }
+        nav ul li {
+          width: 100%;
+          border-bottom: 1px solid var(--border-color);
+        }
+        nav ul li:last-child {
+          border-bottom: none;
         }
         nav ul li a {
-          font-size: 0.65rem;
-          padding: 15px 0;
+          display: block;
+          width: 100%;
+          padding: 15px 20px;
+          font-size: 0.9rem;
+          text-align: left;
         }
+
+        .dropdown-menu {
+          display: none !important;
+        } /* Hidden on mobile to keep flow clean */
 
         .image-container {
           flex-direction: column;
-          gap: 8px;
+          gap: 10px;
         }
         .img-wrapper {
-          width: 90px;
-          height: 90px;
+          width: 100px;
+          height: 100px;
         }
         .scattered .img-1 {
-          transform: translate3d(0, -22vh, 0) scale(0.9);
+          transform: translate3d(0, -18vh, 0) scale(0.9);
         }
         .scattered .img-2 {
-          transform: translate3d(-25vw, 20vh, 0) scale(0.9);
+          transform: translate3d(-18vw, 15vh, 0) scale(0.9);
         }
         .scattered .img-3 {
-          transform: translate3d(25vw, 20vh, 0) scale(0.9);
-        }
-        .main-text-svg {
-          font-size: 55px;
-        }
-        .sub-text-svg {
-          font-size: 14px;
+          transform: translate3d(18vw, 15vh, 0) scale(0.9);
         }
 
         #slider-section {
@@ -761,32 +784,19 @@
           display: flex;
           opacity: 1;
         }
-        .slide h2 {
-          font-size: 3.5rem;
-        }
-        .slide p,
-        .slide ul {
-          font-size: 1rem;
-        }
         .dots-container {
-          bottom: 10px;
           position: relative;
-          margin-top: 20px;
+          bottom: 0;
+          margin-top: 25px;
         }
 
         .dedicated-section {
           padding: 100px 5vw 60px 5vw;
         }
-        .section-header {
-          font-size: 3.5rem;
-        }
         .interactive-item {
           gap: 15px;
           flex-direction: column;
           align-items: flex-start;
-        }
-        .interactive-name {
-          font-size: 3.5rem;
         }
         .mini-slideshow {
           width: 100%;
@@ -800,7 +810,7 @@
     <!-- Theme Toggle -->
     <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
 
-    <!-- Header / Navigation (Single Line) -->
+    <!-- Header / Navigation -->
     <header id="main-header">
       <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
         <img
@@ -810,8 +820,12 @@
         />
         <span class="logo-text">MARVELOUS PRECISION</span>
       </div>
+
+      <!-- Mobile Hamburger Menu Icon -->
+      <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
       <nav>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-menu">
           <li>
             <a onclick="navigateTo('main-view', 'slider-section', 0)"
               >About Us</a
@@ -885,49 +899,49 @@
       </nav>
     </header>
 
-    <!-- Fast, Zero-Lag Solid Curtain Intro -->
-    <section id="intro-section">
-      <div class="image-container" id="img-container">
-        <div class="img-wrapper img-1"><img src="1.png" alt="Image 1" /></div>
-        <div class="img-wrapper img-2"><img src="2.png" alt="Image 2" /></div>
-        <div class="img-wrapper img-3"><img src="3.png" alt="Image 3" /></div>
-      </div>
-      <div class="text-wrapper" id="intro-text">
-        <svg class="title-svg" viewBox="0 0 1000 200">
-          <defs>
-            <linearGradient id="glossyRed" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#ff4b4b" />
-              <stop offset="50%" stop-color="#d50000" />
-              <stop offset="100%" stop-color="#8a0000" />
-            </linearGradient>
-          </defs>
-          <text
-            x="50%"
-            y="45%"
-            text-anchor="middle"
-            dominant-baseline="middle"
-            class="main-text-svg"
-          >
-            MARVELOUS PRECISION
-          </text>
-          <text
-            x="90%"
-            y="85%"
-            text-anchor="end"
-            dominant-baseline="middle"
-            class="sub-text-svg"
-          >
-            PVT. LTD.
-          </text>
-        </svg>
-      </div>
-    </section>
-
     <!-- =======================================================
          VIEW 1: MAIN HOME VIEW
          ======================================================= -->
     <div id="main-view" class="page-view active">
-      <!-- Dynamic Full Page Slider -->
+      <!-- Physical First Slide (Zero Overlap & Lag) -->
+      <section id="intro-section">
+        <div class="image-container" id="img-container">
+          <div class="img-wrapper img-1"><img src="1.png" alt="Image 1" /></div>
+          <div class="img-wrapper img-2"><img src="2.png" alt="Image 2" /></div>
+          <div class="img-wrapper img-3"><img src="3.png" alt="Image 3" /></div>
+        </div>
+        <div class="text-wrapper" id="intro-text">
+          <svg class="title-svg" viewBox="0 0 1000 200">
+            <defs>
+              <linearGradient id="glossyRed" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ff4b4b" />
+                <stop offset="50%" stop-color="#d50000" />
+                <stop offset="100%" stop-color="#8a0000" />
+              </linearGradient>
+            </defs>
+            <text
+              x="50%"
+              y="45%"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              class="main-text-svg"
+            >
+              MARVELOUS PRECISION
+            </text>
+            <text
+              x="90%"
+              y="85%"
+              text-anchor="end"
+              dominant-baseline="middle"
+              class="sub-text-svg"
+            >
+              PVT. LTD.
+            </text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Dynamic Full Page Slider (Sits immediately below Intro) -->
       <section id="slider-section">
         <div class="slide active">
           <h2>About Us</h2>
@@ -950,14 +964,13 @@
               color: #d50000;
               font-weight: 700;
               margin-top: 15px;
-              font-size: 1.4rem;
+              font-size: clamp(1.1rem, 3vw, 1.4rem);
               font-family: &quot;Montserrat&quot;, sans-serif;
               font-style: italic;
             "
           >
             Quintessence of our business is ‘Just in Time’ delivery!
           </p>
-          <span class="sr-only" style="display: none"></span>
         </div>
 
         <div class="slide">
@@ -982,7 +995,6 @@
               eco-friendly practices.
             </li>
           </ul>
-          <span class="sr-only" style="display: none"></span>
         </div>
 
         <div class="slide">
@@ -1005,7 +1017,6 @@
             <li><strong>EXPORTER CODE (IEC):</strong> 3109020611</li>
             <li><strong>CERC NUMBER:</strong> AAGCM3307BEM001</li>
           </ul>
-          <span class="sr-only" style="display: none"></span>
         </div>
 
         <div class="slide">
@@ -1031,7 +1042,6 @@
               precision and consistency in every component.
             </li>
           </ul>
-          <span class="sr-only" style="display: none"></span>
         </div>
 
         <div class="slide">
@@ -1041,16 +1051,13 @@
             Manufacture & Supply of Precision Machine Components.
           </p>
           <p>Our Inspection Equipment Includes:</p>
-          <ul style="columns: 2; column-gap: 40px; margin-top: 10px">
-            <li>
-              • <strong>ACCURATE CMM SPECTRA</strong> (Range: 800 x 1000 x 600)
-            </li>
-            <li>• <strong>MAHR DIGIMAR 817 CLT</strong> Height Gauge</li>
+          <ul style="columns: 2; column-gap: 20px; margin-top: 10px">
+            <li>• <strong>ACCURATE CMM SPECTRA</strong></li>
+            <li>• <strong>MAHR DIGIMAR 817 CLT</strong></li>
             <li>• <strong>INSIZE</strong> Vernier Caliper</li>
-            <li>• <strong>INSIZE</strong> Depth Vernier Caliper</li>
+            <li>• <strong>INSIZE</strong> Depth Vernier</li>
             <li>• Precision Bore Dial Gauge</li>
           </ul>
-          <span class="sr-only" style="display: none"></span>
         </div>
 
         <div class="slide">
@@ -1068,7 +1075,6 @@
               "
             />
           </div>
-          <span class="sr-only" style="display: none"></span>
         </div>
 
         <div class="dots-container">
@@ -1128,7 +1134,6 @@
                 this.src = 'https://via.placeholder.com/200x60?text=f2.png'
               "
             />
-            <span class="sr-only" style="display: none"></span>
           </div>
         </div>
       </section>
@@ -1180,7 +1185,6 @@
                 this.src = 'https://via.placeholder.com/200x60?text=w2.png'
               "
             />
-            <span class="sr-only" style="display: none"></span>
           </div>
         </div>
       </section>
@@ -1199,7 +1203,6 @@
             <span class="person-name">Mrs. Preeti Pawar</span>
             <a href="tel:+917875717111">+91 7875717111</a>
           </div>
-          <span class="sr-only" style="display: none"></span>
         </div>
         <div class="footer-col">
           <h4>EMAIL</h4>
@@ -1210,7 +1213,6 @@
             >sonicalengineering@gmail.com</a
           >
           <a href="mailto:surjitpawar26@gmail.com">surjitpawar26@gmail.com</a>
-          <span class="sr-only" style="display: none"></span>
         </div>
         <div class="footer-col">
           <h4>ADDRESS</h4>
@@ -1218,7 +1220,6 @@
             Plot No H-23 MIDC Gokul Shirgaon.<br />
             Kolhapur - 416234, MAHARASTRA, INDIA
           </p>
-          <span class="sr-only" style="display: none"></span>
         </div>
       </footer>
     </div>
@@ -1343,7 +1344,6 @@
               />
             </div>
           </div>
-          <span class="sr-only" style="display: none"></span>
         </div>
       </section>
     </div>
@@ -1461,7 +1461,6 @@
               />
             </div>
           </div>
-          <span class="sr-only" style="display: none"></span>
         </div>
       </section>
     </div>
@@ -1656,14 +1655,21 @@
               />
             </div>
           </div>
-          <span class="sr-only" style="display: none"></span>
         </div>
       </section>
     </div>
 
     <script>
-      // --- View Router ---
+      // --- Mobile Menu Toggle ---
+      function toggleMenu() {
+        document.getElementById("nav-menu").classList.toggle("show");
+      }
+
+      // --- View Router & Smooth Scrolling ---
       function navigateTo(viewId, targetId, slideIndex = null) {
+        // Hide Mobile Menu on Click
+        document.getElementById("nav-menu").classList.remove("show");
+
         document.querySelectorAll(".page-view").forEach((view) => {
           view.classList.remove("active");
         });
@@ -1729,15 +1735,21 @@
           introSection.classList.add("scattered");
         }, 800);
 
-        // Flawless bidirectional scroll trigger
+        // Flawless bidirectional scroll trigger based on physical scroll height
+        let ticking = false;
         window.addEventListener(
           "scroll",
           () => {
-            if (window.scrollY > 5) {
-              document.body.classList.add("scrolled");
-            } else {
-              // Brings the solid intro cleanly back down when scrolled to the top
-              document.body.classList.remove("scrolled");
+            if (!ticking) {
+              window.requestAnimationFrame(() => {
+                if (window.scrollY > 20) {
+                  document.body.classList.add("scrolled");
+                } else {
+                  document.body.classList.remove("scrolled");
+                }
+                ticking = false;
+              });
+              ticking = true;
             }
           },
           { passive: true },
