@@ -615,7 +615,7 @@
         text-align: center;
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: clamp(1.2rem, 4vw, 1.8rem);
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
         color: var(--text-color);
         letter-spacing: 1.5px;
         margin-bottom: 25px;
@@ -638,7 +638,7 @@
       }
       .marquee-content img {
         height: clamp(35px, 6vw, 50px);
-        margin: 0 clamp(20px, 4vw, 45px);
+        margin: 0 clamp(25px, 4vw, 45px);
         object-fit: contain;
         filter: grayscale(100%) contrast(1.2);
         opacity: 0.65;
@@ -715,11 +715,12 @@
            PERFECT MOBILE UX (PHONES & TABLETS)
            ========================================= */
       @media (max-width: 950px) {
-        /* 1. Header: Strictly ☰ on LHS, Logo next to it. No links visible. */
+        /* 1. Header: Strictly ☰ on LHS, Logo & Text stacked next to it. */
         header {
-          display: block; /* Removes flex conflicts */
+          display: block;
           padding: 0;
-          height: 70px;
+          height: auto;
+          min-height: 70px;
           overflow: visible;
         }
 
@@ -727,14 +728,14 @@
           display: flex;
           align-items: center;
           width: 100%;
-          height: 70px;
-          padding: 0 5vw;
+          padding: 12px 5vw;
           background-color: var(--nav-bg);
-          gap: 15px;
+          gap: 20px;
           z-index: 9005;
           position: relative;
         }
 
+        /* Hamburger exactly on the left */
         .menu-icon {
           display: block;
           font-size: 32px;
@@ -745,21 +746,26 @@
           line-height: 1;
         }
 
+        /* Logo and Company Name explicitly stacked */
         .logo-container {
-          flex-grow: 1;
           display: flex;
-          align-items: center;
-          gap: 10px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+        }
+        .logo-container img {
+          height: 35px;
         }
         .logo-container span {
-          font-size: 1.25rem;
+          font-size: 1.1rem;
           font-weight: 900;
+          line-height: 1;
         }
 
-        /* 2. Slide Down Mobile Drawer (Zero overlap) */
+        /* 2. Slide Down Mobile Drawer */
         nav#navbar {
           position: absolute;
-          top: 70px;
+          top: 100%; /* Drops exactly beneath the dynamic header height */
           left: 0;
           width: 100%;
           background-color: var(--nav-bg);
@@ -769,7 +775,7 @@
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
           border-top: 1px solid var(--border-color);
           z-index: 9004;
-          display: block; /* Overrides desktop flex */
+          display: block;
         }
         nav#navbar.open {
           max-height: 85vh;
@@ -797,7 +803,7 @@
 
         nav#navbar ul.nav-links li a {
           padding: 18px 6vw;
-          font-size: 1.2rem; /* Big, readable text */
+          font-size: 1.2rem;
           width: 100%;
           display: block;
           text-align: left;
@@ -859,7 +865,7 @@
         #slider-section {
           min-height: auto;
           height: auto;
-          padding: 100px 5vw 60px 5vw; /* Tightened perfectly */
+          padding: 100px 5vw 60px 5vw;
         }
         /* Slides become naturally stacked to fix blank spaces */
         .slide {
@@ -871,7 +877,7 @@
           display: none;
         }
         .slide.active {
-          position: relative; /* Container automatically hugs active content */
+          position: relative;
           opacity: 1;
           visibility: visible;
           display: flex;
@@ -899,7 +905,7 @@
 
         /* 5. Tighten Dedicated Sections */
         .dedicated-section {
-          padding: 100px 5vw 60px 5vw;
+          padding: 120px 5vw 60px 5vw;
           min-height: auto;
         }
         .section-header {
@@ -946,13 +952,13 @@
     <!-- Theme Toggle -->
     <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
 
-    <!-- PERFECTED MOBILE HEADER (☰, Logo, Name Only) -->
+    <!-- PERFECTED MOBILE HEADER -->
     <header id="main-header">
       <div class="header-inner">
-        <!-- 1. Hamburger on LHS -->
+        <!-- 1. Hamburger precisely on LHS -->
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
 
-        <!-- 2. Logo & Name -->
+        <!-- 2. Logo & Name precisely stacked beside the hamburger -->
         <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
           <img
             src="1.png"
@@ -1047,7 +1053,6 @@
          VIEW 1: MAIN HOME VIEW
          ======================================================= -->
     <div id="main-view" class="page-view active">
-      <!-- Physical First Slide -->
       <section id="intro-section">
         <div class="image-container" id="img-container">
           <div class="img-wrapper img-1"><img src="1.png" alt="Image 1" /></div>
@@ -1085,7 +1090,6 @@
         </div>
       </section>
 
-      <!-- Dynamic Full Page Slider -->
       <section id="slider-section">
         <div class="slide active">
           <h2>About Us</h2>
@@ -1229,7 +1233,7 @@
         </div>
       </section>
 
-      <!-- 1. Associated Foundries Marquee -->
+      <!-- Marquees -->
       <section class="marquee-section">
         <h3 class="marquee-title">Associated Foundries</h3>
         <div class="marquee-wrapper">
@@ -1280,7 +1284,6 @@
         </div>
       </section>
 
-      <!-- 2. Our Customers Marquee -->
       <section class="marquee-section" style="padding-top: 0">
         <h3 class="marquee-title">Our Customers</h3>
         <div class="marquee-wrapper">
@@ -1809,7 +1812,6 @@
 
       // --- View Router & Smooth Scrolling ---
       function navigateTo(viewId, targetId, slideIndex = null) {
-        // Close mobile menu on click safely
         const mobileNav = document.getElementById("navbar");
         if (mobileNav && mobileNav.classList.contains("open")) {
           mobileNav.classList.remove("open");
@@ -1868,19 +1870,16 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        // Theme Toggle
         const themeToggle = document.getElementById("theme-toggle");
         themeToggle.addEventListener("click", () => {
           document.body.classList.toggle("dark-mode");
         });
 
-        // Trigger Scatter Animation
         const introSection = document.getElementById("intro-section");
         setTimeout(() => {
           introSection.classList.add("scattered");
         }, 800);
 
-        // Flawless bidirectional scroll trigger
         let ticking = false;
         window.addEventListener(
           "scroll",
@@ -1900,10 +1899,8 @@
           { passive: true },
         );
 
-        // Start Slider
         slideInterval = setInterval(nextSlide, 5000);
 
-        // Interactive Items Tap Handling
         const interactiveItems = document.querySelectorAll(".interactive-item");
         interactiveItems.forEach((item) => {
           item.addEventListener("click", () => {
