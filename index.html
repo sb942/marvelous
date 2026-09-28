@@ -94,29 +94,40 @@
       }
 
       /* =========================================
-           NAVIGATION BAR
+           NAVIGATION BAR (DESKTOP)
            ========================================= */
       header {
         position: fixed;
         top: 0;
+        left: 0;
         width: 100%;
         background-color: var(--nav-bg);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 2vw;
+        padding: 0 2vw;
         z-index: 9000;
         transition: background-color 0.3s ease;
-        height: 65px;
+        height: 70px;
       }
-      .logo-container {
+
+      .mobile-header-left {
         display: flex;
         align-items: center;
         gap: 10px;
         cursor: pointer;
-        flex-shrink: 0;
         z-index: 9001;
+        flex-shrink: 0;
+      }
+      .menu-icon {
+        display: none;
+      } /* Hidden on desktop */
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
       .logo-container img {
         height: 35px;
@@ -126,49 +137,47 @@
       .logo-container span {
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: clamp(0.9rem, 2vw, 1rem);
+        font-size: clamp(1rem, 2vw, 1.1rem);
         letter-spacing: 0.5px;
         color: #d50000;
         white-space: nowrap;
       }
 
-      .menu-icon {
-        display: none;
-        font-size: 28px;
-        cursor: pointer;
-        color: var(--text-color);
-        z-index: 9001;
-      }
-
-      nav {
-        flex-grow: 1;
+      nav#navbar {
         display: flex;
         justify-content: flex-end;
+        height: 100%;
+        align-items: center;
+        flex-grow: 1;
       }
-      nav ul {
+      nav#navbar ul.nav-links {
         list-style: none;
         display: flex;
         gap: 1.5vw;
         align-items: center;
+        height: 100%;
+        margin: 0;
         flex-wrap: nowrap;
-        white-space: nowrap;
-        transition: all 0.3s ease;
       }
-      nav ul li {
+      nav#navbar ul li {
+        height: 100%;
+        display: flex;
+        align-items: center;
         position: relative;
       }
-      nav ul li a {
+      nav#navbar ul li a {
         text-decoration: none;
         color: var(--text-color);
         font-family: "Inter", sans-serif;
         font-weight: 700;
         font-size: 0.75rem;
         transition: color 0.2s ease;
-        padding: 20px 0;
+        padding: 10px 0;
         cursor: pointer;
         text-transform: uppercase;
+        white-space: nowrap;
       }
-      nav ul li a:hover {
+      nav#navbar ul li a:hover {
         color: #d50000;
       }
       .nav-highlight {
@@ -182,7 +191,7 @@
         left: 50%;
         transform: translateX(-50%) translateY(10px);
         background-color: var(--nav-bg);
-        min-width: 180px;
+        min-width: 200px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         border-radius: 8px;
         opacity: 0;
@@ -190,7 +199,7 @@
         transition: all 0.2s ease;
         display: flex;
         flex-direction: column;
-        padding: 8px 0;
+        padding: 10px 0;
         border: 1px solid var(--border-color);
       }
       .dropdown:hover .dropdown-menu {
@@ -200,12 +209,13 @@
       }
       .dropdown-menu li {
         width: 100%;
+        height: auto;
       }
       .dropdown-menu li a {
         display: block;
-        padding: 10px 15px;
-        font-size: 0.75rem;
-        text-align: center;
+        padding: 12px 20px;
+        font-size: 0.8rem;
+        text-align: left;
       }
       .dropdown-menu li a:hover {
         background-color: var(--hover-bg);
@@ -234,7 +244,7 @@
       }
 
       /* =========================================
-           PHYSICAL FIRST SLIDE (Zero Overlap & Lag)
+           SOLID CURTAIN INTRO 
            ========================================= */
       #intro-section {
         position: relative;
@@ -256,8 +266,8 @@
         z-index: 2;
       }
       .img-wrapper {
-        width: 200px;
-        height: 200px;
+        width: clamp(100px, 15vw, 200px);
+        height: clamp(100px, 15vw, 200px);
         background: transparent;
         display: flex;
         justify-content: center;
@@ -314,7 +324,6 @@
         fill: url(#glossyRed);
         stroke: url(#glossyRed);
       }
-      /* Fluid SVG Typography */
       .main-text-svg {
         font-size: clamp(40px, 8vw, 100px);
         stroke-width: 1px;
@@ -346,6 +355,7 @@
         padding-top: 65px;
         background-color: var(--bg-color);
       }
+
       .slide {
         position: absolute;
         top: 0;
@@ -359,13 +369,15 @@
         padding: 20px 8vw;
         text-align: center;
         opacity: 0;
+        visibility: hidden;
         transform: translateY(20px);
         transition: all 0.4s ease-out;
         pointer-events: none;
-        overflow-y: auto; /* Allows scrolling if content is tall */
+        overflow-y: auto;
       }
       .slide.active {
         opacity: 1;
+        visibility: visible;
         transform: translateY(0);
         pointer-events: auto;
         z-index: 10;
@@ -373,7 +385,7 @@
 
       .slide h2 {
         font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(3rem, 8vw, 5rem); /* Fluid sizing */
+        font-size: clamp(3.5rem, 8vw, 5rem);
         color: #d50000;
         letter-spacing: 2px;
         margin-bottom: 20px;
@@ -381,7 +393,7 @@
       }
       .slide p {
         font-family: "Inter", sans-serif;
-        font-size: clamp(1rem, 2.5vw, 1.3rem); /* Fluid sizing */
+        font-size: clamp(1.15rem, 2.5vw, 1.3rem);
         line-height: 1.6;
         max-width: 1000px;
         font-weight: 500;
@@ -393,7 +405,7 @@
         max-width: 900px;
         margin: 12px auto;
         font-family: "Inter", sans-serif;
-        font-size: clamp(0.95rem, 2vw, 1.15rem);
+        font-size: clamp(1.05rem, 2vw, 1.15rem);
         line-height: 1.7;
         color: var(--text-color);
         list-style: none;
@@ -456,11 +468,11 @@
       }
       .section-header {
         font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(3.5rem, 8vw, 4.5rem);
+        font-size: clamp(4rem, 8vw, 4.5rem);
         color: #d50000;
         margin-bottom: 30px;
         letter-spacing: 2px;
-        line-height: 1;
+        line-height: 1.1;
       }
       .interactive-list {
         display: flex;
@@ -477,16 +489,16 @@
         cursor: pointer;
         width: 100%;
       }
+
       .item-text-content {
         display: flex;
         flex-direction: column;
         gap: 8px;
         flex: 1;
       }
-
       .interactive-name {
         font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(2.5rem, 6vw, 5rem); /* Prevents overflow */
+        font-size: clamp(3rem, 6vw, 5rem);
         color: #b3b3b3;
         transition:
           color 0.2s ease,
@@ -499,7 +511,7 @@
       }
       .item-desc {
         font-family: "Inter", sans-serif;
-        font-size: clamp(0.9rem, 2vw, 1rem);
+        font-size: clamp(1rem, 2vw, 1.1rem);
         color: #888;
         line-height: 1.5;
         max-width: 650px;
@@ -511,8 +523,8 @@
       }
 
       .mini-slideshow {
-        width: 260px;
-        height: 160px;
+        width: clamp(200px, 30vw, 280px);
+        height: clamp(120px, 20vw, 180px);
         position: relative;
         border-radius: 10px;
         overflow: hidden;
@@ -602,7 +614,7 @@
         text-align: center;
         font-family: "Montserrat", sans-serif;
         font-weight: 900;
-        font-size: clamp(1.2rem, 4vw, 1.8rem);
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
         color: var(--text-color);
         letter-spacing: 1.5px;
         margin-bottom: 25px;
@@ -624,8 +636,8 @@
         align-items: center;
       }
       .marquee-content img {
-        height: clamp(35px, 6vw, 50px);
-        margin: 0 clamp(20px, 4vw, 45px);
+        height: clamp(40px, 6vw, 50px);
+        margin: 0 clamp(25px, 4vw, 45px);
         object-fit: contain;
         filter: grayscale(100%) contrast(1.2);
         opacity: 0.65;
@@ -699,90 +711,178 @@
       }
 
       /* =========================================
-           MOBILE UX PERFECTION
+           MOBILE UX PERFECTION (Phones & Tablets)
            ========================================= */
       @media (max-width: 950px) {
+        /* 1. True App-Like Header */
         header {
-          padding: 10px 15px;
+          padding: 0;
+          height: 70px;
+          display: flex;
+          flex-direction: column; /* Allows absolute dropdown positioning relative to header */
+          align-items: flex-start;
+          justify-content: flex-start;
         }
+
+        .mobile-header-left {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 70px;
+          padding: 0 5vw;
+          background-color: var(--nav-bg);
+          gap: 15px;
+          z-index: 9002;
+        }
+
         .menu-icon {
           display: block;
+          font-size: 28px;
+          color: var(--text-color);
+          cursor: pointer;
+          user-select: none;
         }
 
-        nav {
-          width: 100%;
-          position: absolute;
-          top: 65px;
-          left: 0;
-        }
-        nav ul {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          background: var(--nav-bg);
-          padding: 0;
-          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-          max-height: 0;
-          overflow: hidden;
-          white-space: normal;
-          border-top: 1px solid var(--border-color);
-        }
-        nav ul.show {
-          max-height: 500px;
-          padding: 10px 0;
-        }
-        nav ul li {
-          width: 100%;
-          border-bottom: 1px solid var(--border-color);
-        }
-        nav ul li:last-child {
-          border-bottom: none;
-        }
-        nav ul li a {
-          display: block;
-          width: 100%;
-          padding: 15px 20px;
-          font-size: 0.9rem;
-          text-align: left;
-        }
-
-        .dropdown-menu {
-          display: none !important;
-        } /* Hidden on mobile to keep flow clean */
-
-        .image-container {
-          flex-direction: column;
+        .logo-container {
+          flex-grow: 1;
           gap: 10px;
         }
+        .logo-container img {
+          height: 30px;
+        }
+        .logo-container span {
+          font-size: 1.1rem;
+        }
+
+        /* 2. Sleek Slide-Down Mobile Menu */
+        nav#navbar {
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background-color: var(--nav-bg);
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.4s ease-in-out;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+          border-top: 1px solid var(--border-color);
+          z-index: 9001;
+        }
+        nav#navbar.open {
+          max-height: 85vh;
+          overflow-y: auto;
+        }
+
+        nav#navbar ul.nav-links {
+          flex-direction: column;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+          align-items: flex-start;
+        }
+        nav#navbar ul.nav-links li {
+          width: 100%;
+          border-bottom: 1px solid var(--border-color);
+          height: auto;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        nav#navbar ul.nav-links li:last-child {
+          border-bottom: none;
+        }
+
+        nav#navbar ul.nav-links li a {
+          padding: 16px 5vw;
+          font-size: 1.15rem; /* Highly readable */
+          width: 100%;
+          display: block;
+          text-align: left;
+          white-space: normal;
+        }
+
+        /* Indented Sub-Menus on Mobile */
+        .dropdown-menu {
+          position: static;
+          transform: none;
+          box-shadow: none;
+          border: none;
+          display: flex;
+          opacity: 1;
+          visibility: visible;
+          background-color: var(--hover-bg);
+          width: 100%;
+          padding: 0;
+          min-width: auto;
+        }
+        .dropdown-menu li {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        }
+        .dropdown-menu li:last-child {
+          border-bottom: none;
+        }
+        .dropdown-menu li a {
+          padding: 14px 10vw; /* Indented further right */
+          font-size: 1rem;
+          color: var(--text-color);
+          opacity: 0.85;
+        }
+
+        /* 3. Intro Mobile Adjustments */
+        .image-container {
+          flex-direction: column;
+          gap: 8px;
+        }
         .img-wrapper {
-          width: 100px;
-          height: 100px;
+          width: 110px;
+          height: 110px;
         }
         .scattered .img-1 {
           transform: translate3d(0, -18vh, 0) scale(0.9);
         }
         .scattered .img-2 {
-          transform: translate3d(-18vw, 15vh, 0) scale(0.9);
+          transform: translate3d(-20vw, 15vh, 0) scale(0.9);
         }
         .scattered .img-3 {
-          transform: translate3d(18vw, 15vh, 0) scale(0.9);
+          transform: translate3d(20vw, 15vh, 0) scale(0.9);
+        }
+        .main-text-svg {
+          font-size: 65px;
         }
 
+        /* 4. Removing Gaps on Sliders */
         #slider-section {
+          min-height: auto;
           height: auto;
-          min-height: 100vh;
-          padding-top: 80px;
+          padding: 90px 0 60px 0;
         }
+        /* Slide becomes relative on mobile so parent container perfectly hugs the content */
         .slide {
-          position: relative;
-          padding: 20px 5vw;
+          position: absolute;
           opacity: 0;
-          display: none;
+          visibility: hidden;
+          padding: 0;
           transform: none;
+          display: none;
         }
         .slide.active {
-          display: flex;
+          position: relative;
           opacity: 1;
+          visibility: visible;
+          display: flex;
+          padding: 20px 6vw;
+        }
+
+        /* Enhanced Text Sizing */
+        .slide h2 {
+          font-size: 3.8rem;
+          margin-bottom: 15px;
+        }
+        .slide p {
+          font-size: 1.15rem;
+          margin-bottom: 15px;
+        }
+        .slide ul {
+          font-size: 1.05rem;
         }
         .dots-container {
           position: relative;
@@ -790,18 +890,37 @@
           margin-top: 25px;
         }
 
+        /* 5. Tighten Dedicated Sections */
         .dedicated-section {
-          padding: 100px 5vw 60px 5vw;
+          padding: 90px 5vw 50px 5vw;
+          min-height: auto;
         }
+        .section-header {
+          font-size: 3.8rem;
+          margin-bottom: 25px;
+        }
+
         .interactive-item {
-          gap: 15px;
+          gap: 12px;
           flex-direction: column;
           align-items: flex-start;
         }
+        .interactive-name {
+          font-size: 3.8rem;
+        }
+        .item-desc {
+          font-size: 1.1rem;
+        }
         .mini-slideshow {
           width: 100%;
-          height: 200px;
-          transform-origin: top;
+          height: 220px;
+          transform-origin: top left;
+          margin-top: 5px;
+        }
+
+        footer {
+          padding: 60px 6vw;
+          gap: 35px;
         }
       }
     </style>
@@ -812,20 +931,20 @@
 
     <!-- App-Like Header -->
     <header id="main-header">
-      <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
-        <img
-          src="1.png"
-          alt="Company Logo"
-          onerror="this.style.display = 'none'"
-        />
-        <span class="logo-text">MARVELOUS PRECISION</span>
+      <div class="mobile-header-left">
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div class="logo-container" onclick="navigateTo('main-view', null, 0)">
+          <img
+            src="1.png"
+            alt="Company Logo"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="logo-text">MARVELOUS PRECISION</span>
+        </div>
       </div>
 
-      <!-- Mobile Hamburger Menu Icon -->
-      <div class="menu-icon" onclick="toggleMenu()">☰</div>
-
-      <nav>
-        <ul class="nav-links" id="nav-menu">
+      <nav id="navbar">
+        <ul class="nav-links">
           <li>
             <a onclick="navigateTo('main-view', 'slider-section', 0)"
               >About Us</a
@@ -847,7 +966,9 @@
             >
           </li>
           <li class="dropdown">
-            <a onclick="navigateTo('machines-view', null)"
+            <a
+              onclick="navigateTo('machines-view', null)"
+              style="color: #d50000"
               >Machine Facilities ▾</a
             >
             <ul class="dropdown-menu">
@@ -863,7 +984,9 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a onclick="navigateTo('equipments-view', null)"
+            <a
+              onclick="navigateTo('equipments-view', null)"
+              style="color: #d50000"
               >Inspection Equipments ▾</a
             >
             <ul class="dropdown-menu">
@@ -903,7 +1026,6 @@
          VIEW 1: MAIN HOME VIEW
          ======================================================= -->
     <div id="main-view" class="page-view active">
-      <!-- Physical First Slide (Zero Overlap & Lag) -->
       <section id="intro-section">
         <div class="image-container" id="img-container">
           <div class="img-wrapper img-1"><img src="1.png" alt="Image 1" /></div>
@@ -941,7 +1063,7 @@
         </div>
       </section>
 
-      <!-- Dynamic Full Page Slider (Sits immediately below Intro) -->
+      <!-- Dynamic Auto-Slider -->
       <section id="slider-section">
         <div class="slide active">
           <h2>About Us</h2>
@@ -964,8 +1086,6 @@
               color: #d50000;
               font-weight: 700;
               margin-top: 15px;
-              font-size: clamp(1.1rem, 3vw, 1.4rem);
-              font-family: &quot;Montserrat&quot;, sans-serif;
               font-style: italic;
             "
           >
@@ -1087,7 +1207,7 @@
         </div>
       </section>
 
-      <!-- 1. Associated Foundries Marquee -->
+      <!-- Marquees -->
       <section class="marquee-section">
         <h3 class="marquee-title">Associated Foundries</h3>
         <div class="marquee-wrapper">
@@ -1138,7 +1258,6 @@
         </div>
       </section>
 
-      <!-- 2. Our Customers Marquee -->
       <section class="marquee-section" style="padding-top: 0">
         <h3 class="marquee-title">Our Customers</h3>
         <div class="marquee-wrapper">
@@ -1660,15 +1779,17 @@
     </div>
 
     <script>
-      // --- Mobile Menu Toggle ---
+      // --- Mobile Hamburger Menu Logic ---
       function toggleMenu() {
-        document.getElementById("nav-menu").classList.toggle("show");
+        document.getElementById("navbar").classList.toggle("open");
       }
 
       // --- View Router & Smooth Scrolling ---
       function navigateTo(viewId, targetId, slideIndex = null) {
-        // Hide Mobile Menu on Click
-        document.getElementById("nav-menu").classList.remove("show");
+        const mobileNav = document.getElementById("navbar");
+        if (mobileNav.classList.contains("open")) {
+          mobileNav.classList.remove("open");
+        }
 
         document.querySelectorAll(".page-view").forEach((view) => {
           view.classList.remove("active");
@@ -1723,19 +1844,16 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        // Theme Toggle
         const themeToggle = document.getElementById("theme-toggle");
         themeToggle.addEventListener("click", () => {
           document.body.classList.toggle("dark-mode");
         });
 
-        // Trigger Scatter Animation
         const introSection = document.getElementById("intro-section");
         setTimeout(() => {
           introSection.classList.add("scattered");
         }, 800);
 
-        // Flawless bidirectional scroll trigger based on physical scroll height
         let ticking = false;
         window.addEventListener(
           "scroll",
@@ -1755,10 +1873,8 @@
           { passive: true },
         );
 
-        // Start Slider
         slideInterval = setInterval(nextSlide, 5000);
 
-        // Interactive Items Tap Handling
         const interactiveItems = document.querySelectorAll(".interactive-item");
         interactiveItems.forEach((item) => {
           item.addEventListener("click", () => {
