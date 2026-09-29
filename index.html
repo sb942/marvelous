@@ -93,6 +93,34 @@
         transform: scale(1.1);
       }
 
+      /* Mobile-only minimal theme control */
+      @media (max-width: 768px) {
+        #theme-toggle {
+          width: 20px;
+          height: 20px;
+          padding: 0;
+          right: 9px;
+          bottom: 9px;
+          border: 1px solid currentColor;
+          border-radius: 50%;
+          background: transparent;
+          color: var(--text-color);
+          box-shadow: none;
+          opacity: 0.22;
+          font-size: 0;
+          transition:
+            opacity 0.25s ease,
+            transform 0.25s ease;
+        }
+
+        #theme-toggle:hover,
+        #theme-toggle:focus-visible {
+          opacity: 0.5;
+          transform: scale(1.08);
+          outline: none;
+        }
+      }
+
       /* =========================================
            NAVIGATION BAR (DESKTOP DEFAULT)
            ========================================= */
@@ -318,6 +346,7 @@
         height: auto;
         overflow: visible;
       }
+
       .main-text-svg,
       .sub-text-svg {
         font-family: "Bebas Neue", sans-serif;
@@ -334,6 +363,14 @@
         font-size: clamp(14px, 3vw, 24px);
         stroke-width: 0.5px;
         letter-spacing: 4px;
+      }
+
+      /* Desktop keeps the original single-line title */
+      .desktop-title {
+        display: block;
+      }
+      .mobile-title {
+        display: none;
       }
 
       body.scrolled #intro-section .img-wrapper,
@@ -715,80 +752,108 @@
            PERFECT MOBILE UX (PHONES & TABLETS)
            ========================================= */
       @media (max-width: 950px) {
-        /* 1. Header: Strictly ☰ on LHS, Logo & Text stacked next to it. */
+        /* 1. Mobile Header: ONLY ☰ + stacked Logo/Name */
         header {
           display: block;
           padding: 0;
           height: auto;
           min-height: 70px;
           overflow: visible;
+          position: fixed;
         }
 
         .header-inner {
           display: flex;
           align-items: center;
           width: 100%;
-          padding: 12px 5vw;
+          min-height: 70px;
+          padding: 10px 5vw;
           background-color: var(--nav-bg);
-          gap: 20px;
+          gap: 16px;
           z-index: 9005;
           position: relative;
         }
 
-        /* Hamburger exactly on the left */
+        /* Hamburger stays completely on the left */
         .menu-icon {
           display: block;
           font-size: 32px;
           color: var(--text-color);
           cursor: pointer;
           user-select: none;
-          flex-shrink: 0;
+          flex: 0 0 auto;
           line-height: 1;
+          width: 32px;
+          text-align: center;
         }
 
-        /* Logo and Company Name explicitly stacked */
+        /* Logo + MARVELOUS PRECISION are vertically stacked */
         .logo-container {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          gap: 5px;
-        }
-        .logo-container img {
-          height: 35px;
-        }
-        .logo-container span {
-          font-size: 1.1rem;
-          font-weight: 900;
-          line-height: 1;
+          justify-content: center;
+          gap: 4px;
+          flex: 0 0 auto;
         }
 
-        /* 2. Slide Down Mobile Drawer */
+        .logo-container img {
+          height: 35px;
+          width: auto;
+          display: block;
+        }
+
+        .logo-container span {
+          font-size: 0.95rem;
+          font-weight: 900;
+          line-height: 1;
+          letter-spacing: 0.4px;
+          white-space: nowrap;
+        }
+
+        /* 2. Mobile Drawer: compact left-side half-screen menu */
         nav#navbar {
           position: absolute;
-          top: 100%; /* Drops exactly beneath the dynamic header height */
+          top: 100%;
           left: 0;
-          width: 100%;
+          width: 50vw;
+          max-width: 360px;
+          min-width: 250px;
+          height: auto;
           background-color: var(--nav-bg);
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.35s ease-in-out;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+          opacity: 0;
+          transform: translateY(-8px);
+          transition:
+            max-height 0.4s ease,
+            opacity 0.25s ease,
+            transform 0.35s ease;
+          box-shadow: 8px 10px 24px rgba(0, 0, 0, 0.14);
           border-top: 1px solid var(--border-color);
+          border-right: 1px solid var(--border-color);
+          border-radius: 0 0 10px 0;
           z-index: 9004;
           display: block;
+          pointer-events: none;
         }
+
         nav#navbar.open {
-          max-height: 85vh;
+          max-height: calc(100svh - 70px);
           overflow-y: auto;
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
         }
 
         nav#navbar ul.nav-links {
           display: flex;
           flex-direction: column;
           width: 100%;
-          padding: 0;
+          padding: 2px 0;
           margin: 0;
         }
+
         nav#navbar ul.nav-links li {
           width: 100%;
           border-bottom: 1px solid var(--border-color);
@@ -797,20 +862,22 @@
           flex-direction: column;
           align-items: flex-start;
         }
+
         nav#navbar ul.nav-links li:last-child {
           border-bottom: none;
         }
 
         nav#navbar ul.nav-links li a {
-          padding: 18px 6vw;
-          font-size: 1.2rem;
+          padding: 9px 16px;
+          font-size: 0.78rem;
+          line-height: 1.15;
           width: 100%;
           display: block;
           text-align: left;
           white-space: normal;
         }
 
-        /* Indented Sub-Menus inside the drawer */
+        /* Same desktop options, shown as a clean vertical submenu */
         .dropdown-menu {
           position: relative;
           top: 0;
@@ -819,120 +886,351 @@
           box-shadow: none;
           border: none;
           display: flex;
+          flex-direction: column;
           opacity: 1;
           visibility: visible;
           background-color: transparent;
           width: 100%;
           padding: 0;
-          min-width: auto;
+          min-width: 0;
         }
+
         .dropdown-menu li {
-          border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+          width: 100%;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
+
         .dropdown-menu li:last-child {
           border-bottom: none;
         }
+
         .dropdown-menu li a {
-          padding: 14px 12vw; /* Indented deeper */
-          font-size: 1.05rem;
+          padding: 7px 16px 7px 30px;
+          font-size: 0.68rem;
+          line-height: 1.1;
           color: var(--text-color);
-          opacity: 0.85;
+          opacity: 0.82;
         }
 
         /* 3. Intro Mobile Adjustments */
-        .image-container {
-          flex-direction: column;
-          gap: 8px;
-        }
-        .img-wrapper {
-          width: 110px;
-          height: 110px;
-        }
-        .scattered .img-1 {
-          transform: translate3d(0, -18vh, 0) scale(0.9);
-        }
-        .scattered .img-2 {
-          transform: translate3d(-20vw, 15vh, 0) scale(0.9);
-        }
-        .scattered .img-3 {
-          transform: translate3d(20vw, 15vh, 0) scale(0.9);
-        }
-        .main-text-svg {
-          font-size: 65px;
+        #intro-section {
+          width: 100%;
+          min-height: 100svh;
+          height: 100svh;
+          padding: 0;
+          overflow: hidden;
         }
 
-        /* 4. Fix Gaps/Spaces by removing forced heights on mobile */
-        #slider-section {
-          min-height: auto;
-          height: auto;
-          padding: 100px 5vw 60px 5vw;
-        }
-        /* Slides become naturally stacked to fix blank spaces */
-        .slide {
+        .image-container {
           position: absolute;
-          opacity: 0;
-          visibility: hidden;
-          padding: 0;
+          inset: 0;
+          width: 100%;
+          height: 100%;
           transform: none;
+          display: block;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        /* Mobile image animation: centered vertical stack */
+        .img-wrapper {
+          position: absolute;
+          left: 50%;
+          width: clamp(72px, 20vw, 96px);
+          height: clamp(72px, 20vw, 96px);
+          margin: 0;
+          flex-shrink: 0;
+          transform-origin: center center;
+          will-change: transform, left, top;
+          transition:
+            left 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+            top 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.8s ease;
+        }
+
+        /* Initial pose: three images vertically aligned through the center */
+        .img-wrapper.img-1 {
+          left: 50%;
+          top: 39%;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .img-wrapper.img-2 {
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .img-wrapper.img-3 {
+          left: 50%;
+          top: 61%;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        /*
+             * Smooth fan-out:
+             * top-left, bottom-center, top-right.
+             * The transition handles the continuous travel rather than
+             * instantly placing the images at their final coordinates.
+             */
+        .scattered .img-1 {
+          left: 27%;
+          top: 20%;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .scattered .img-2 {
+          left: 50%;
+          top: 78%;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .scattered .img-3 {
+          left: 73%;
+          top: 20%;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .title-svg {
+          position: relative;
+          z-index: 10;
+          width: 94vw;
+          max-width: 560px;
+          height: 225px;
+          overflow: visible;
+        }
+
+        /* Desktop title is hidden only inside the mobile breakpoint */
+        .desktop-title {
           display: none;
         }
-        .slide.active {
-          position: relative;
-          opacity: 1;
-          visibility: visible;
-          display: flex;
+
+        /* Large, bold mobile two-line title */
+        /* Extra protection for narrow phones */
+        @media (max-width: 430px) {
+          .img-wrapper {
+            width: clamp(68px, 20vw, 88px);
+            height: clamp(68px, 20vw, 88px);
+          }
+
+          .img-wrapper.img-1 {
+            top: 38%;
+          }
+
+          .img-wrapper.img-2 {
+            top: 50%;
+          }
+
+          .img-wrapper.img-3 {
+            top: 62%;
+          }
+
+          .scattered .img-1 {
+            left: 27%;
+            top: 20%;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+
+          .scattered .img-2 {
+            left: 50%;
+            top: 80%;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+
+          .scattered .img-3 {
+            left: 73%;
+            top: 20%;
+            transform: translate(-50%, -50%) scale(0.9);
+          }
+
+          .title-svg {
+            width: 92vw;
+          }
         }
 
-        /* Enhanced Text Sizing for Mobile readability */
+        .mobile-title {
+          display: block;
+          font-size: 142px;
+          font-weight: 900;
+          letter-spacing: 1px;
+          stroke-width: 1.15px;
+        }
+
+        .mobile-title tspan {
+          display: block;
+        }
+
+        .sub-text-svg {
+          font-size: 25px;
+          letter-spacing: 3px;
+        }
+
+        /* 4. Mobile Slider: compact, centered and free of desktop-height gaps */
+        #slider-section {
+          width: 100%;
+          min-height: 0;
+          height: auto;
+          padding: 105px 5vw 55px 5vw;
+          display: block;
+          overflow: visible;
+        }
+
+        /* Inactive slides are removed from layout completely */
+        .slide {
+          position: absolute;
+          top: auto;
+          left: 0;
+          width: 100%;
+          height: auto;
+          min-height: 0;
+          display: none;
+          opacity: 0;
+          visibility: hidden;
+          transform: none;
+          padding: 0;
+          margin: 0;
+          text-align: center;
+          overflow: visible;
+        }
+
+        /* Active slide controls its own natural height */
+        .slide.active {
+          position: relative;
+          display: flex;
+          width: 100%;
+          height: auto;
+          min-height: 0;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
         .slide h2 {
-          font-size: 3.8rem;
-          margin-bottom: 15px;
+          width: 100%;
+          font-size: clamp(2.6rem, 12vw, 3.6rem);
+          line-height: 0.95;
+          margin: 0 0 18px 0;
+          letter-spacing: 1.5px;
+          text-align: center;
         }
+
         .slide p {
-          font-size: 1.15rem;
-          margin-bottom: 15px;
-          line-height: 1.5;
+          width: 100%;
+          max-width: 680px;
+          font-size: clamp(1rem, 4.2vw, 1.18rem);
+          line-height: 1.55;
+          margin: 0 auto 14px auto;
+          text-align: center;
         }
+
         .slide ul {
-          font-size: 1.1rem;
-          line-height: 1.5;
+          width: 100%;
+          max-width: 680px;
+          margin: 8px auto 0 auto;
+          padding: 0;
+          font-size: clamp(0.98rem, 4vw, 1.1rem);
+          line-height: 1.55;
+          text-align: left;
         }
+
+        .slide li {
+          margin-bottom: 9px;
+        }
+
+        /* Registration card stays compact and centered */
+        .slide ul[style*="max-width: 580px"] {
+          width: 100%;
+          max-width: 580px !important;
+          padding: 20px 18px !important;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: left;
+        }
+
+        /* Quality list becomes one clean column on phones */
+        .slide ul[style*="columns: 2"] {
+          columns: 1 !important;
+          column-count: 1 !important;
+        }
+
+        .iso-cert-container {
+          width: min(100%, 280px);
+          margin: 8px auto 0 auto;
+        }
+
         .dots-container {
           position: relative;
-          bottom: 0;
-          margin-top: 25px;
+          left: auto;
+          bottom: auto;
+          transform: none;
+          width: 100%;
+          justify-content: center;
+          margin: 28px auto 0 auto;
+          gap: 11px;
+        }
+
+        .dot {
+          width: 10px;
+          height: 10px;
         }
 
         /* 5. Tighten Dedicated Sections */
         .dedicated-section {
-          padding: 120px 5vw 60px 5vw;
+          padding: 105px 5vw 55px 5vw;
           min-height: auto;
         }
+
         .section-header {
-          font-size: 3.8rem;
-          margin-bottom: 25px;
+          width: 100%;
+          font-size: clamp(2.8rem, 12vw, 3.8rem);
+          line-height: 0.95;
+          margin-bottom: 28px;
+          text-align: center;
         }
 
         .interactive-list {
-          gap: 30px;
+          width: 100%;
+          gap: 34px;
         }
+
         .interactive-item {
-          gap: 12px;
+          width: 100%;
+          gap: 14px;
           flex-direction: column;
-          align-items: flex-start;
+          align-items: center;
+          text-align: center;
         }
+
+        .item-text-content {
+          width: 100%;
+          align-items: center;
+        }
+
         .interactive-name {
-          font-size: 3.8rem;
+          width: 100%;
+          font-size: clamp(2.35rem, 10vw, 3.6rem);
+          line-height: 0.98;
+          text-align: center;
         }
+
         .item-desc {
-          font-size: 1.1rem;
-          line-height: 1.4;
+          width: 100%;
+          max-width: 650px;
+          font-size: clamp(0.98rem, 4vw, 1.1rem);
+          line-height: 1.5;
+          text-align: center;
         }
+
         .mini-slideshow {
           width: 100%;
-          height: 220px;
-          transform-origin: top left;
-          margin-top: 5px;
+          max-width: 430px;
+          height: min(55vw, 220px);
+          min-height: 170px;
+          transform-origin: center;
+          margin-top: 4px;
         }
 
         .marquee-title {
@@ -950,7 +1248,11 @@
   </head>
   <body>
     <!-- Theme Toggle -->
-    <button id="theme-toggle" title="Toggle Dark/Light Mode">🌓</button>
+    <button
+      id="theme-toggle"
+      title="Toggle Dark/Light Mode"
+      aria-label="Toggle Dark/Light Mode"
+    ></button>
 
     <!-- PERFECTED MOBILE HEADER -->
     <header id="main-header">
@@ -1068,15 +1370,28 @@
                 <stop offset="100%" stop-color="#8a0000" />
               </linearGradient>
             </defs>
+            <!-- Desktop title: unchanged single-line version -->
             <text
               x="50%"
               y="45%"
               text-anchor="middle"
               dominant-baseline="middle"
-              class="main-text-svg"
+              class="main-text-svg desktop-title"
             >
               MARVELOUS PRECISION
             </text>
+
+            <!-- Mobile title: large two-line version -->
+            <text
+              x="50%"
+              y="34%"
+              text-anchor="middle"
+              class="main-text-svg mobile-title"
+            >
+              <tspan x="50%" dy="0">MARVELOUS</tspan>
+              <tspan x="50%" dy="0.92em">PRECISION</tspan>
+            </text>
+
             <text
               x="90%"
               y="85%"
